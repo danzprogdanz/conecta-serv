@@ -27,8 +27,9 @@ import LoadingSpinnerCommon from "../../commons/LoadingSpinnerCommon";
 //import { getHomeHelper } from "../../utils/camerasDataUtils/getHomeHelper";
 import TableHomeDWComponent from "./components/TableHomeComponent";
 import MapLeafLetComponent from "../../components/MapLeafLetComponent";
+import TableHomeComponent from "./components/TableHomeComponent";
 
-const HomeDWPage: React.FC = () => {
+const HomePage: React.FC = () => {
   const [camValue, setCamValue] = useState<string | null>(null);
   const [stateValue, setStateValue] = useState<string | null>(null);
   const [cityValue, setCityValue] = useState<string | null>(null);
@@ -214,13 +215,10 @@ const HomeDWPage: React.FC = () => {
           </MapWrapperStyled>
           <LeftContainerSupportStyled>
             <TableWrapperStyled>
-              {/* <TableHomeDWComponent
-                tableData={getHomeHelper(cameraData)}
-              /> */}
+              <TableHomeComponent
+                /* tableData={getHomeHelper(cameraData)} */
+              />
             </TableWrapperStyled>
-            <ButtonCommon onClick={handleOpenModalAddDevice}>
-              Adicionar Dispositivo
-            </ButtonCommon>
           </LeftContainerSupportStyled>
         </MainContentContainerStyled>
       </HomePageLayoutStyled>
@@ -235,4 +233,4 @@ const HomeDWPage: React.FC = () => {
   );
 };
 
-export default HomeDWPage;
+export default HomePage;
