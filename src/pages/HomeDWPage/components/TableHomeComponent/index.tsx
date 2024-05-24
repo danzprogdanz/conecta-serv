@@ -6,15 +6,11 @@ import SmallButtonCommon from "../../../../commons/SmallButtonCommon";
 
 interface IProps {
   tableData?: any;
-  onEdit: (objectId: string, newData: any) => void;  
-  onDelete: (objectId: string) => void; // Function to handle delete action
 }
 
 // Import statements...
-const TableHomeDWComponent: React.FC<IProps> = ({
+const TableHomeComponent: React.FC<IProps> = ({
   tableData,
-  onEdit,
-  onDelete,
 }) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
@@ -52,18 +48,18 @@ const TableHomeDWComponent: React.FC<IProps> = ({
       <TableContainerStyled $variant="details">
         <THeadStyled>
           <ColumnHeadRowStyled $variant="details">
-            <ColumnNameElementStyled $flex="1">Câmera</ColumnNameElementStyled>
+            <ColumnNameElementStyled $flex="1">xxxxx</ColumnNameElementStyled>
             <ColumnNameElementStyled $flex="2">
-              Cidade - UF
+              yyyyyyyy
             </ColumnNameElementStyled>
             <ColumnNameElementStyled $flex="4">
-              Endereço
+              wwwwwww
             </ColumnNameElementStyled>
             <ColumnNameElementStyled $flex="1.5">Status</ColumnNameElementStyled>
             <ColumnNameElementStyled $flex="3">Ações</ColumnNameElementStyled>
           </ColumnHeadRowStyled>
         </THeadStyled>
-        <tbody>
+        {/* <tbody>
           {tableData.length > 0 ? (tableData.map((item: any, index: any) => (
               <TableRowStyled  key={index} $variant="details">
                 <TableCellPropsStyled onClick={() => onClickTableCell(item.id)} $flex="1" $variant="details">
@@ -80,18 +76,18 @@ const TableHomeDWComponent: React.FC<IProps> = ({
                 </TableCellPropsStyled>
                 <TableCellActionsPropsStyled $flex="3" $variant="details">
                   <SmallButtonCommon
-                    /* variant="deleteElement" */
+                    /* variant="deleteElement"
                     tooltipContent="Deletar"
                     onClick={() => handleDeleteClick(item.id, item.Camera)}
                   />
                   <SmallButtonCommon
-                    /* variant="edit" */
+                    /* variant="edit" 
                     tooltipContent="Editar"
                     onClick={() => handleEditClick(item.id)}
                   />
                   <CustomLink to={`/dispositivos/${item.id}/modulos`}>
                     <SmallButtonCommon 
-                      /* variant="analytics" */ 
+                      /* variant="analytics"  
                       tooltipContent="Analítico"
                       onClick={() => console.log(item)}
                     />
@@ -102,7 +98,7 @@ const TableHomeDWComponent: React.FC<IProps> = ({
                       tooltipContent="Câmera"
                       $isDisabled={true}
                   /> */}
-                  {/* </CustomLink> */}
+                  {/* </CustomLink> }
                 </TableCellActionsPropsStyled>
               </TableRowStyled>
           ))) : (
@@ -114,10 +110,10 @@ const TableHomeDWComponent: React.FC<IProps> = ({
               </td>
             </tr>
           )}
-        </tbody>
+        </tbody> */ }
       </TableContainerStyled>
     </>
   );
 };
 
-export default TableHomeDWComponent;
+export default TableHomeComponent;
