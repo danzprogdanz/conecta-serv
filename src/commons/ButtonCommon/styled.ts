@@ -18,9 +18,9 @@ const isDisabledStyle = css`
 
 const ButtonBaseRootStyled = styled.button`
   //align-self: center;
-  background-color: ${colors.Principal400};
+  background-color: #3BEAB3;
   border: none;
-  color: ${colors.Cinza100};
+  color: #101213;
   height: 2.25rem;
   letter-spacing: 0.1em;
   padding-left: 0.6rem;
@@ -31,9 +31,10 @@ const ButtonBaseRootStyled = styled.button`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border: solid 3px ${colors.Principal400};
+  border: solid 3px #3BEAB3;
   text-wrap: nowrap;
   user-select: none;
+  font-weight: 700;
 
   ${(props) => props.theme?.colors && (`background-color: ${props.theme?.colors?.carrotOrange};`)};
   ${(props) => props.theme?.colors && (`border: solid 3px ${props.theme?.colors?.carrotOrange};`)};

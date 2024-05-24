@@ -90,7 +90,7 @@ export const SmallIconVariant = styled(BaseIcon)<{
   $variant?: keyof typeof buttonsVariants;
   $isActive?: boolean | undefined;
 }>`
-  ${(props) => getIconStyles({ variant: props.$variant, isActive: props.$isActive })}
+  /*  */
 `;
 
 export const SmallButtonRootContainerStyled = styled.div`

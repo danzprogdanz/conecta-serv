@@ -26,6 +26,7 @@ import ToastNotificationDWCommon from "../../commons/ToastNotificationDWCommon";
 import LoadingSpinnerCommon from "../../commons/LoadingSpinnerCommon";
 //import { getHomeHelper } from "../../utils/camerasDataUtils/getHomeHelper";
 import TableHomeDWComponent from "./components/TableHomeComponent";
+import MapLeafLetComponent from "../../components/MapLeafLetComponent";
 
 const HomeDWPage: React.FC = () => {
   const [camValue, setCamValue] = useState<string | null>(null);
@@ -205,11 +206,11 @@ const HomeDWPage: React.FC = () => {
         </FilterContainerStyled> */}
         <MainContentContainerStyled>
           <MapWrapperStyled $fullScreenMap={fullScreenMap}>
-            {/* <MapLeafLetDWComponent 
+            <MapLeafLetComponent
               handleFullScreen={handleFullScreen} 
               fullScreenButton={true}
-              locationsData={getHomeHelper(cameraData)}
-            /> */}
+              /* locationsData={getHomeHelper(cameraData)} */
+            />
           </MapWrapperStyled>
           <LeftContainerSupportStyled>
             <TableWrapperStyled>

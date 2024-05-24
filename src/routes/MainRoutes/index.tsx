@@ -33,6 +33,7 @@ const MainRoutes: React.FC = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<HomePage />} /> 
+        <Route path="/*" element={<Navigate to="/"/>} />      
       </Routes>
       {showLoadingSpinner && <LoadingSpinnerCommon/>}
     </>

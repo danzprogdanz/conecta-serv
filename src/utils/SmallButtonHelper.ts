@@ -1,4 +1,4 @@
-import Filter from '../assets/icons/FilterSmall.svg';
+/* import Filter from '../assets/icons/FilterSmall.svg';
 import CleanFilter from '../assets/icons/CleanFilterSmall.svg';
 import DetailViewWhite from '../assets/icons/DetailIconWhite.svg';
 import GridViewWhite from '../assets/icons/GridIconWhite.svg';
@@ -38,7 +38,7 @@ import LineIcon from '../assets/icons/LineSvgIcon.svg';
 import PolygonIcon from '../assets/icons/PolygonSvgIcon.svg';
 import SquadIcon from '../assets/icons/SquadSvgIcon.svg';
 import SweepIcon from '../assets/icons/SweepSvgIcon.svg';
-import TextIcon from '../assets/icons/TextSvgIcon.svg';
+import TextIcon from '../assets/icons/TextSvgIcon.svg'; */
 
 import { css } from 'styled-components';
 import { colors } from '../assets/styles/colors';
@@ -411,7 +411,7 @@ export const getIconStyles = ({
   isActive,
 }: IProps) => {
 
-  switch (variant) {
+  /* switch (variant) {
     case "filter":
       return css`
         content: url(${Filter});
@@ -693,5 +693,5 @@ export const getIconStyles = ({
         `;
     default:
       return css``; // Default style if the variant doesn't match any cases
-  }
+  } */
 };
