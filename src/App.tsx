@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import LoginPage from './pages/LoginPage';
+import AppRouter from './routes/AppRouter';
 
 function App() {
   return (
     <div className="App">
-     <LoginPage/>
+     <AppRouter/>
     </div>
   );
 }

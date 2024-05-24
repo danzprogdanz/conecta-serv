@@ -1,13 +1,12 @@
 import React from 'react';
-//import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import LoginPage from '../../pages/LoginPage';
 
 const AuthRoutes: React.FC = () => {
 
   return (
-    <>
-    {/* <Routes>
+    <Routes>
       <Route 
         path="/login" 
         element={<LoginPage />} 
@@ -16,8 +15,7 @@ const AuthRoutes: React.FC = () => {
         path="*" 
         element={<Navigate to="/login" replace />} 
       />
-    </Routes>  */}
-    </>
+    </Routes> 
   );
 };
 

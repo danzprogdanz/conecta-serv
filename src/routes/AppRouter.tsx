@@ -1,5 +1,5 @@
 import React from 'react';
-//import {BrowserRouter as Router} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import AuthRoutes from './AuthRoutes';
 import MainRoutes from './MainRoutes';
 //import { useUserAuth } from '../contexts/Auth/UserAuthContext';
@@ -7,14 +7,12 @@ import MainRoutes from './MainRoutes';
 const AppRouter: React.FC = () => {
   //const { user } = useUserAuth();
 
-  const user = null;
+  const user = {};
 
   return (
-    <>
-    {/* <Router>
+    <Router>
       {user ? (<MainRoutes/>) : (<AuthRoutes/>)}
-    </Router> */}
-    </>
+    </Router>
   );
 };
 

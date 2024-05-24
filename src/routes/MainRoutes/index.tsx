@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-/* import {Routes, Route, Navigate} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 
-import NavBarDWComponent from '../../components/NavBarDWComponent';
 import LoadingSpinnerCommon from '../../commons/LoadingSpinnerCommon';
 
 //import { useUserAuth } from '../../contexts/Auth/UserAuthContext';
 //import { signOutAction } from '../../services/actions/auth';
-import HomeDWPage from '../../pages/HomeDWPage'; */
+import HomePage from '../../pages/HomeDWPage';
+import NavBarComponent from '../../components/NavBarComponent';
 
 const MainRoutes: React.FC = () => {
 
@@ -29,12 +29,12 @@ const MainRoutes: React.FC = () => {
  */
   return (
     <>
-      {/* <NavBarDWComponent /* handleSignOut={handleSignOut} />
+      <NavBarComponent  handleSignOut={() => {}/* handleSignOut */} />
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<HomeDWPage />} /> 
+        <Route path="/home" element={<HomePage />} /> 
       </Routes>
-      {showLoadingSpinner && <LoadingSpinnerCommon/>} */}
+      {showLoadingSpinner && <LoadingSpinnerCommon/>}
     </>
   );
 };
