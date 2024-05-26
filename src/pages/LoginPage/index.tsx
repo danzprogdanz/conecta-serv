@@ -18,7 +18,8 @@ import ButtonDWCommon from '../../commons/ButtonCommon';
 import ToastNotificationDWCommon from '../../commons/ToastNotificationDWCommon';
 
 import LoadingSpinnerDWCommon from '../../commons/LoadingSpinnerCommon';
-import ModalSignUpDWComponent from '../../commons/ModalSignUpComponent';
+import ModalSignUpDWComponent from '../../components/ModalSignUpComponent';
+import { signInAction, signUpAction } from '../../services/actions/auth';
 //import { signInAction, signUpAction } from '../../services/actions/auth';
 
 interface IErrorObject {
@@ -111,12 +112,12 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
     } else {
       try {
         if (signUpEmail !== null && signUpPassword !== null) {
-          /* await signUpAction(signUpEmail as string, signUpPassword as string);
+          await signUpAction(signUpEmail as string, signUpPassword as string);
           setSignUpSuccessNotification(true);
           setShowSignUpModal(false);
           setTimeout(() => {
             setSignUpSuccessNotification(false);
-          }, 2000); */
+          }, 2000);
         } else {
           // Handle the case where signUpEmail or signUpPassword is null
         }
@@ -150,7 +151,7 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
       try {
         if (signInEmail && signInPassword) {
           if (signInEmail !== '' && signInPassword !== '') {
-            /* await signInAction(signInEmail, signInPassword) */
+            await signInAction(signInEmail, signInPassword)
           } else {
             ///
           }

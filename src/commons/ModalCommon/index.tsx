@@ -9,6 +9,7 @@ interface IProps {
     | "large"
     | "extra-large"
     | "square-medium"
+    | "signup-modal"
     | undefined;
   onClickOut?: () => void ;
 }

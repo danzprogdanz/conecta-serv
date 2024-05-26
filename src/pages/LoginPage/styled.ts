@@ -34,6 +34,7 @@ export const LogoContainerStyled = styled.div`
   align-items: center;
   justify-content: center;
   padding-top: 4rem;
+  user-select: none;
 `
 
 export const LogoTitleStyled = styled.h1`

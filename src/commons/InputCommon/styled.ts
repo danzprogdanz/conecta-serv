@@ -11,7 +11,7 @@ export const InputContainerStyled = styled.div<{
 
 // Label for Input
 export const InputLabelStyled = styled.label`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: ${colors.White};
   display: flex;
   align-items: flex-start;

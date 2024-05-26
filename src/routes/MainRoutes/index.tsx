@@ -4,7 +4,7 @@ import {Routes, Route, Navigate} from 'react-router-dom';
 import LoadingSpinnerCommon from '../../commons/LoadingSpinnerCommon';
 
 //import { useUserAuth } from '../../contexts/Auth/UserAuthContext';
-//import { signOutAction } from '../../services/actions/auth';
+import { signOutAction } from '../../services/actions/auth';
 import HomePage from '../../pages/HomeDWPage';
 import NavBarComponent from '../../components/NavBarComponent';
 
@@ -16,7 +16,7 @@ const MainRoutes: React.FC = () => {
     const { user } = useUserAuth();
     return user ? children : <Navigate to="/login" replace />;
   };
-
+  */
   const handleSignOut = () => {
     setShowLoadingSpinner(true)
 
@@ -26,10 +26,10 @@ const MainRoutes: React.FC = () => {
     
     signOutAction()
   }
- */
+ 
   return (
     <>
-      <NavBarComponent  handleSignOut={() => {}/* handleSignOut */} />
+      <NavBarComponent  handleSignOut={handleSignOut} />
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<HomePage />} /> 

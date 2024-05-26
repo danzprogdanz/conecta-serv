@@ -11,7 +11,7 @@ interface IProps {
   type?: string; 
 }
 
-const ButtonCommon: React.FC<IProps> = ({ children, onClick, variant, icon, $isDisabled, $isActive }) => {
+const ButtonCommon: React.FC<IProps> = ({ children, onClick, variant, icon, $isDisabled = undefined, $isActive }) => {
 
 /*   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {

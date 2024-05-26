@@ -20,7 +20,7 @@ export const ModalRootContainerBasedStyled = styled.div`
   z-index: 999;
   color: white;
   padding: 2rem 2rem 2rem 2rem;
-  height: fit-content !important;
+  //height: fit-content !important;
   display: flex;
   flex-direction: column; 
   justify-content: space-evenly;
@@ -33,7 +33,7 @@ export const ModalRootContainerBasedStyled = styled.div`
 `
 
 export const ModalRootContainerStyled = styled(ModalRootContainerBasedStyled)<{
-  $variant?: 'small' | 'medium' | 'large' | 'extra-large' | 'square-medium';
+  $variant?: 'small' | 'medium' | 'large' | 'extra-large' | 'square-medium' | 'signup-modal';
 }>`
   ${(props) => {
     switch (props.$variant) {
