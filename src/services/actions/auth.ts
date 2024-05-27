@@ -18,16 +18,27 @@ export const signInAction = async (email: string, password: string) => {
   }
 };
 
-  export const signUpAction = async (email: string, password: string) => {
+  export const signUpAction = async (email: string, password: string, userInfoData: any) => {
     try {
       const newUser = await signUpAccess(email, password)
       console.log('New user:', newUser);
+      console.log('userInfoData', userInfoData);
 
       if (newUser) {
         const userCollection = collection(db, 'users');
 
         const userData = {
           email: newUser.email,
+          userType: userInfoData.userType,
+          name: userInfoData.name,
+          lastName: userInfoData.lastName,
+          cellNumber: userInfoData.cellNumber,
+          organization: userInfoData.organization,
+          adressNumber: userInfoData.adressNumber,
+          street: userInfoData.street,
+          district: userInfoData.district,
+          complement: userInfoData.complement,
+          description: userInfoData.description
         };
   
         const userDoc = doc(userCollection, newUser.uid);

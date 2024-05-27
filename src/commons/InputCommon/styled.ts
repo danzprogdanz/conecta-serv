@@ -30,7 +30,7 @@ export const InputFieldStyled = styled.input<{
   width: ${props => props.$width ? (props.$width) : ('100%')};;
   border-color: ${colors.DarkTheme600};
   color: ${colors.DarkTheme500};
-  background-color: rgba(12, 36, 84, 0.5);
+  background-color: ${colors.White};
   padding: 0rem 0.5rem 0rem 0.5rem; 
   border: 3px solid ${props => props.$state === 'error' ? colors.Perigo400 : colors.DarkTheme600};
 
@@ -41,12 +41,12 @@ export const InputFieldStyled = styled.input<{
 
   &:focus {
     outline: none;                                       
-    color: ${colors.Cinza100};
-    border-color: ${colors.DarkTheme200};
+    color: ${colors.Black};
+    border-color: #3BEAB3;
   }
 
   &:not(:placeholder-shown) {
-    color: ${colors.Cinza100};
+    color: ${colors.Black};
   }
 `;
 

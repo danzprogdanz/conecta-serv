@@ -20,6 +20,7 @@ import ToastNotificationDWCommon from '../../commons/ToastNotificationDWCommon';
 import LoadingSpinnerDWCommon from '../../commons/LoadingSpinnerCommon';
 import ModalSignUpDWComponent from '../../components/ModalSignUpComponent';
 import { signInAction, signUpAction } from '../../services/actions/auth';
+import { IUserData } from '../../interfaces/auth';
 //import { signInAction, signUpAction } from '../../services/actions/auth';
 
 interface IErrorObject {
@@ -48,6 +49,8 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
   const [signUpConfirmPassword, setSignUpConfirmPassword] = useState<string | null>(null);
 
   const [inputRequiredErrorList, setInputRequiredErrorList] = useState<IErrorObject | null>(null);
+
+
   useEffect(() => {
     if (isSendingEmail) {
       const timeoutId = setTimeout(() => {
@@ -82,7 +85,7 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
     setShowSignUpModal(!showSignUpModal);
   }
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (userInfoData: IUserData) => {
     setShowLoadingSpinner(true);
 
     setTimeout(async () => {
@@ -111,8 +114,9 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
       });
     } else {
       try {
+
         if (signUpEmail !== null && signUpPassword !== null) {
-          await signUpAction(signUpEmail as string, signUpPassword as string);
+          await signUpAction(signUpEmail as string, signUpPassword as string, userInfoData as IUserData);
           setSignUpSuccessNotification(true);
           setShowSignUpModal(false);
           setTimeout(() => {

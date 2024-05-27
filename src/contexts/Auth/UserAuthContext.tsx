@@ -12,7 +12,7 @@ const auth = getAuth(app);
 type AuthContextType = {
   user: User | null;
   logIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, userData: any) => Promise<void>;
   logOut: () => Promise<void>;
 };
 

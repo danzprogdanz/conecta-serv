@@ -84,6 +84,24 @@ export const ContentOneContainerStyled = styled.div`
   gap: 0.2rem;
 `
 
+export const ContentThreeContainerStyled = styled.div`
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 0.2rem;
+`
+
+export const FirstLineInputsContainer = styled.div`
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+`
+
 export const ContentTwoContainerStyled = styled.div`
   height: fit-content;
   width: 100%;
@@ -92,6 +110,14 @@ export const ContentTwoContainerStyled = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 0.4rem;
+`
+
+export const ContentFiveContainerStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  gap: 1rem;
 `
 
 export const StepWrapperStyled = styled.div<{

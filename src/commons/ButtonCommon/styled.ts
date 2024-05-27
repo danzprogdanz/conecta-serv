@@ -77,8 +77,8 @@ export const ButtonRootStyled = styled(ButtonBaseRootStyled)<{
       case "outline":
         return css`
           background-color: transparent;
-          border: solid 3px #0C2454;
-          color: #0C2454;
+          border: solid 3px #3BEAB3;
+          color: #3BEAB3;
           height: 2.3rem;
           text-align: center;
           justify-content: center;
