@@ -91,7 +91,7 @@ export const ContentThreeContainerStyled = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.6rem;
 `
 
 export const FirstLineInputsContainer = styled.div`
@@ -109,7 +109,7 @@ export const ContentTwoContainerStyled = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.6rem;
 `
 
 export const ContentFiveContainerStyled = styled.div`

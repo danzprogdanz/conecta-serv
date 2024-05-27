@@ -10,10 +10,10 @@ interface IProps {
 const StatusIndicatorCommon: React.FC<IProps> = ({ children, isActive, visibility }) => {
 
   return isActive? (
-      <ActiveStatusStyled $visibility={visibility}>Aberto</ActiveStatusStyled>
+      <ActiveStatusStyled $visibility={visibility}>Ativo</ActiveStatusStyled>
     ) : 
     (
-      <InactiveStatusStyled $visibility={visibility} >Fechado</InactiveStatusStyled>
+      <InactiveStatusStyled $visibility={visibility}>Inativo</InactiveStatusStyled>
     );
 };
 

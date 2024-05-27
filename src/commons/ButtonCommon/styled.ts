@@ -65,7 +65,7 @@ const isActiveStyle = css`
     `;
 
 export const ButtonRootStyled = styled(ButtonBaseRootStyled)<{
-  $variant?: 'outline' | 'disabled' | 'default' | 'warning' | 'defaultSmall' | 'warningSmall';
+  $variant?: 'outline' | 'disabled' | 'default' | 'warning' | 'defaultSmall' | 'warningSmall' | 'outlineDarker';
   $isDisabled?: boolean | undefined;
   $isActive?: boolean | undefined;
   height?: string;
@@ -79,6 +79,33 @@ export const ButtonRootStyled = styled(ButtonBaseRootStyled)<{
           background-color: transparent;
           border: solid 3px #3BEAB3;
           color: #3BEAB3;
+          height: 2.3rem;
+          text-align: center;
+          justify-content: center;
+
+          ${(props) => props.theme?.colors?.carrotOrange && (`border: solid 3px ${props.theme?.colors?.Black};`)};
+          ${(props) => props.theme?.colors?.carrotOrange && (`color: ${props.theme?.colors?.Black};`)};
+
+          &:hover {
+            background-color: transparent;
+            border: solid 3px ${colors.Principal300};
+            color: ${colors.Principal300};
+
+            ${(props) => props.theme?.colors && (`border: solid 3px ${props.theme?.colors?.Cinza700};`)};
+            ${(props) => props.theme?.colors && (`color: ${props.theme?.colors?.Cinza700};`)};
+
+          }
+
+          &:active {
+            border: solid 3px ${colors.Principal200};
+            color: ${colors.Principal200};
+          }
+        `;
+      case "outlineDarker":
+        return css`
+          background-color: transparent;
+          border: solid 3px #0C2454;
+          color: #0C2454;
           height: 2.3rem;
           text-align: center;
           justify-content: center;

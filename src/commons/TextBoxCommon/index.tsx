@@ -78,6 +78,7 @@ const TextBoxCommon: React.FC<IProps> = ({
         name={name}
         onChange={onChange}
         value={value}
+        placeholder={placeholder}
       />
     </TextBoxRootWrapperStyled>
   );

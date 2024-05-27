@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../../assets/styles/colors';
+import InputErrorIcon from '../../assets/icons/AlertRedIcon.svg';
 
 // Container for Input and Label
 export const InputContainerStyled = styled.div<{
@@ -32,7 +33,7 @@ export const InputFieldStyled = styled.input<{
   color: ${colors.DarkTheme500};
   background-color: ${colors.White};
   padding: 0rem 0.5rem 0rem 0.5rem; 
-  border: 3px solid ${props => props.$state === 'error' ? colors.Perigo400 : colors.DarkTheme600};
+  border: 3px solid ${props => props.$state === 'error' ? colors.Perigo800 : colors.DarkTheme600};
 
   &:hover:not(:focus):not(:not(:placeholder-shown)) {
     border-color: ${colors.DarkTheme500};
@@ -77,14 +78,16 @@ export const InputElementContainerStyled = styled.div`
 
 export const InputErrorAlertContainerStyled = styled.div`
   height: 1rem; 
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
+  right: -10px;
 `
 
 export const InputErrorIconStyled = styled.img`
+  content: url(${InputErrorIcon});
   align-self: center;
 `
 
@@ -95,8 +98,9 @@ export const InputErrorAlertWrapperStyled = styled.div`
   align-items: flex-end;
 `
 export const InputErrorAlertMsgStyled = styled.p`
-  color: ${colors.Perigo400};
+  color: ${colors.Perigo800};
   font-size: 0.7rem;
   position: relative;
   bottom: 0;
+  font-weight: 700;
 `

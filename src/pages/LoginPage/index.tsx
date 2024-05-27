@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect } from "react";
 import {
   LoginFormContainerStyled,
   TitleContainerStyled,
@@ -9,18 +9,18 @@ import {
   LogoContainerStyled,
   LogoTitleStyled,
   LogoSubtitleStyled,
-  DescriptionStyled
-} from './styled';
+  DescriptionStyled,
+} from "./styled";
 
-import TitleDWCommon from '../../commons/TitleDWCommon';
-import InputDWCommon from '../../commons/InputCommon';
-import ButtonDWCommon from '../../commons/ButtonCommon';
-import ToastNotificationDWCommon from '../../commons/ToastNotificationDWCommon';
+import TitleDWCommon from "../../commons/TitleDWCommon";
+import InputDWCommon from "../../commons/InputCommon";
+import ButtonDWCommon from "../../commons/ButtonCommon";
+import ToastNotificationDWCommon from "../../commons/ToastNotificationDWCommon";
 
-import LoadingSpinnerDWCommon from '../../commons/LoadingSpinnerCommon';
-import ModalSignUpDWComponent from '../../components/ModalSignUpComponent';
-import { signInAction, signUpAction } from '../../services/actions/auth';
-import { IUserData } from '../../interfaces/auth';
+import LoadingSpinnerDWCommon from "../../commons/LoadingSpinnerCommon";
+import ModalSignUpDWComponent from "../../components/ModalSignUpComponent";
+import { signInAction, signUpAction } from "../../services/actions/auth";
+import { IUserData } from "../../interfaces/auth";
 //import { signInAction, signUpAction } from '../../services/actions/auth';
 
 interface IErrorObject {
@@ -41,15 +41,18 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
 
   const [signInErrorNotification, setSignInErrorNotification] = useState(false);
   const [signUpErrorNotification, setSignUpErrorNotification] = useState(false);
-  const [signUpSuccessNotification, setSignUpSuccessNotification] = useState(false);
+  const [signUpSuccessNotification, setSignUpSuccessNotification] =
+    useState(false);
   const [signInEmail, setSignInEmail] = useState<string | null>(null);
   const [signInPassword, setSignInPassword] = useState<string | null>(null);
   const [signUpEmail, setSignUpEmail] = useState<string | null>(null);
   const [signUpPassword, setSignUpPassword] = useState<string | null>(null);
-  const [signUpConfirmPassword, setSignUpConfirmPassword] = useState<string | null>(null);
+  const [signUpConfirmPassword, setSignUpConfirmPassword] = useState<
+    string | null
+  >(null);
 
-  const [inputRequiredErrorList, setInputRequiredErrorList] = useState<IErrorObject | null>(null);
-
+  const [inputRequiredErrorList, setInputRequiredErrorList] =
+    useState<IErrorObject | null>(null);
 
   useEffect(() => {
     if (isSendingEmail) {
@@ -68,7 +71,7 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
     if (showToastNotification) {
       const timeoutId = setTimeout(() => {
         setShowToastNotification(false);
-        setShowModal(false); 
+        setShowModal(false);
       }, 2000);
 
       return () => {
@@ -83,7 +86,7 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
 
   const handleOpenSignUpModal = () => {
     setShowSignUpModal(!showSignUpModal);
-  }
+  };
 
   const handleSignUp = async (userInfoData: IUserData) => {
     setShowLoadingSpinner(true);
@@ -91,71 +94,80 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
     setTimeout(async () => {
       setShowLoadingSpinner(false);
 
+      const missingFields = [];
 
-    const missingFields = [];
+      if (!userInfoData.signUpEmail) {
+        missingFields.push("signUpEmail");
+      }
+      if (!userInfoData.signUpPassword) {
+        missingFields.push("signUpPassword");
+      }
+      if (!userInfoData.signUpConfirmPassword) {
+        missingFields.push("signUpConfirmPassword");
+      }
 
-    if (!signUpEmail) { missingFields.push("signUpEmail") }
-    if (!signUpPassword) { missingFields.push("signUpPassword") }
-    if (!signUpConfirmPassword) { missingFields.push("signUpConfirmPassword") }
+      if (missingFields.length > 0) {
+        setInputRequiredErrorList({
+          type: "requiredField",
+          fields: missingFields,
+        });
+        return;
+      }
 
-    if (missingFields.length > 0) {
-      setInputRequiredErrorList({
-        type: "requiredField",
-        fields: missingFields,
-      });
-      return; 
-    }
-
-    if (signUpPassword !== signUpConfirmPassword) {
-      console.log("senhas diferentes");
-      setInputRequiredErrorList({
-        type: "differentPasswords",
-        fields: ["signUpConfirmPassword"],
-      });
-    } else {
-      try {
-
-        if (signUpEmail !== null && signUpPassword !== null) {
-          await signUpAction(signUpEmail as string, signUpPassword as string, userInfoData as IUserData);
-          setSignUpSuccessNotification(true);
-          setShowSignUpModal(false);
-          setTimeout(() => {
-            setSignUpSuccessNotification(false);
-          }, 2000);
-        } else {
-          // Handle the case where signUpEmail or signUpPassword is null
-        }
-      } catch (error) {
-        if (error && typeof error === "object" && "code" in error) {
-          switch ((error as { code: string }).code) {
-            case "auth/email-already-in-use":
-              setSignUpErrorNotification(true);
-              setTimeout(() => {
-                setSignUpErrorNotification(false);
-              }, 3000);
-              break;
-            default:
-              break;
+      if (userInfoData.signUpPassword !== userInfoData.signUpConfirmPassword) {
+        console.log("senhas diferentes");
+        setInputRequiredErrorList({
+          type: "differentPasswords",
+          fields: ["signUpConfirmPassword"],
+        });
+      } else {
+        try {
+          if (userInfoData.signUpEmail !== null && userInfoData.signUpPassword !== null) {
+            await signUpAction(
+              userInfoData.signUpEmail as string,
+              userInfoData.signUpPassword as string,
+              userInfoData as IUserData
+            );
+            setSignUpSuccessNotification(true);
+            setShowSignUpModal(false);
+            setTimeout(() => {
+              setSignUpSuccessNotification(false);
+            }, 2000);
+          } else {
+            // Handle the case where signUpEmail or signUpPassword is null
           }
-        } else {
-          console.log("General Error:", error);
+        } catch (error) {
+          if (error && typeof error === "object" && "code" in error) {
+            switch ((error as { code: string }).code) {
+              case "auth/email-already-in-use":
+                setSignUpErrorNotification(true);
+                setTimeout(() => {
+                  setSignUpErrorNotification(false);
+                }, 3000);
+                break;
+              default:
+                break;
+            }
+          } else {
+            console.log("General Error:", error);
+          }
         }
       }
-    }
-  }, 2000);
+    }, 2000);
 
+    setShowSignUpModal(false)
   };
 
   const handleSignIn = async () => {
-    setShowLoadingSpinner(true)
-  
+    setShowLoadingSpinner(true);
+
     setTimeout(async () => {
-      setShowLoadingSpinner(false)
-  
+      setShowLoadingSpinner(false);
+
       try {
         if (signInEmail && signInPassword) {
-          if (signInEmail !== '' && signInPassword !== '') {
-            await signInAction(signInEmail, signInPassword)
+          if (signInEmail !== "" && signInPassword !== "") {
+            await signInAction(signInEmail, signInPassword);
           } else {
             ///
           }
@@ -163,58 +175,48 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
           setInputRequiredErrorList({
             type: "requiredField",
             fields: ["signInEmail", "signInPassword"],
-          });        }
+          });
+        }
       } catch (error) {
         //console.log((error as { code: string }).code)
-        if (error && typeof error === 'object' && 'code' in error) {
-          switch((error as { code: string }).code) {
-            case 'auth/invalid-email':
-              console.log('auth/invalid-email')
+        if (error && typeof error === "object" && "code" in error) {
+          switch ((error as { code: string }).code) {
+            case "auth/invalid-email":
+              console.log("auth/invalid-email");
               setInputRequiredErrorList({
                 type: "invalidEmail",
                 fields: ["signInEmail"],
-              });              
+              });
               break;
-            case 'auth/invalid-login-credentials':
+            case "auth/invalid-login-credentials":
               setSignInErrorNotification(true);
               setTimeout(() => {
                 setSignInErrorNotification(false);
-              }, 2000)
+              }, 2000);
               break;
             default:
               break;
           }
-
         } else {
-          console.log('General Error:', error);
+          console.log("General Error:", error);
           // Handle other non-Firebase errors here
         }
         setSignInErrorNotification(true);
         setTimeout(() => {
           setSignInErrorNotification(false);
-        }, 2000)
+        }, 2000);
       }
-    }, 2000)
-    
+    }, 2000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
-      case 'signInEmail':
+      case "signInEmail":
         setSignInEmail(value);
         break;
-      case 'signInPassword':
+      case "signInPassword":
         setSignInPassword(value);
-        break;
-      case 'signUpEmail':
-        setSignUpEmail(value);
-        break;
-      case 'signUpPassword':
-        setSignUpPassword(value);
-        break;
-      case 'signUpConfirmPassword':
-        setSignUpConfirmPassword(value);
         break;
       default:
         break;
@@ -227,7 +229,9 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
         <LogoContainerStyled>
           <LogoTitleStyled>Conecta Serv</LogoTitleStyled>
           <LogoSubtitleStyled>Fortal</LogoSubtitleStyled>
-          <DescriptionStyled>Conectando  profissionais  a  clientes</DescriptionStyled>
+          <DescriptionStyled>
+            Conectando profissionais a clientes
+          </DescriptionStyled>
         </LogoContainerStyled>
         <LoginFormContainerStyled>
           <LoginFormCardStyled>
@@ -237,7 +241,7 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
             </TitleContainerStyled>
             <InputsWrapperStyled>
               <InputDWCommon
-                name='signInEmail'
+                name="signInEmail"
                 label="Email ou usuário"
                 placeholder="testando@gmail.com"
                 type="text"
@@ -245,7 +249,7 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
                 inputRequiredErrorList={inputRequiredErrorList}
               />
               <InputDWCommon
-                name='signInPassword'
+                name="signInPassword"
                 label="Senha"
                 placeholder="Insira sua senha"
                 type="password"
@@ -255,20 +259,35 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
             </InputsWrapperStyled>
             <ButtonDWCommon onClick={handleSignIn}>Acessar</ButtonDWCommon>
           </LoginFormCardStyled>
-          <SignUpOpenModalButtonStyled onClick={handleOpenSignUpModal}>Cadastre-se</SignUpOpenModalButtonStyled>
+          <SignUpOpenModalButtonStyled onClick={handleOpenSignUpModal}>
+            Cadastre-se
+          </SignUpOpenModalButtonStyled>
         </LoginFormContainerStyled>
-        {showSignUpModal && <ModalSignUpDWComponent
-          onCancel={handleOpenSignUpModal}
-          onChange={handleChange}
-          handleSignUp={handleSignUp}
-          inputRequiredErrorList={inputRequiredErrorList}
-          onClickOut={() => setShowSignUpModal(false)}
-        />} 
-        {showLoadingSpinner && <LoadingSpinnerDWCommon/>}
+        {showSignUpModal && (
+          <ModalSignUpDWComponent
+            onCancel={handleOpenSignUpModal}
+            handleSignUp={handleSignUp}
+            inputRequiredErrorList={inputRequiredErrorList}
+            onClickOut={() => setShowSignUpModal(false)}
+          />
+        )}
+        {showLoadingSpinner && <LoadingSpinnerDWCommon />}
         {isSendingEmail && <LoadingSpinnerDWCommon />}
-        {showToastNotification && <ToastNotificationDWCommon variant="success" />}
-        {signInErrorNotification && <ToastNotificationDWCommon variant='error' description='Email ou senha incorreta'/>}
-        {signUpErrorNotification && <ToastNotificationDWCommon variant='error' description='Usuário já cadastrado'/>}
+        {showToastNotification && (
+          <ToastNotificationDWCommon variant="success" />
+        )}
+        {signInErrorNotification && (
+          <ToastNotificationDWCommon
+            variant="error"
+            description="Email ou senha incorreta"
+          />
+        )}
+        {signUpErrorNotification && (
+          <ToastNotificationDWCommon
+            variant="error"
+            description="Usuário já cadastrado"
+          />
+        )}
         {children}
       </LoginPageLayoutStyled>
     </>

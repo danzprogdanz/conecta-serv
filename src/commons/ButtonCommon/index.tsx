@@ -6,7 +6,7 @@ interface IProps {
   onClick?: () => void;
   $isDisabled?: boolean | undefined;
   $isActive?: boolean | undefined;
-  variant?: 'outline' | 'disabled' | 'default' | 'defaultSmall' | 'warningSmall' | 'warning' | undefined;
+  variant?: 'outline' | 'disabled' | 'default' | 'defaultSmall' | 'warningSmall' | 'warning' | 'outlineDarker' | undefined;
   icon?: 'exportBlue' | 'exportWhite' | undefined;
   type?: string; 
 }

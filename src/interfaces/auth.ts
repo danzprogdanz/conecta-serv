@@ -1,5 +1,8 @@
 export interface IUserData {
-    userType: string | null;
+    userType: string | null;  
+    signUpEmail: string;
+    signUpPassword: string;
+    signUpConfirmPassword: string;
     name: string;
     lastName: string;
     cellNumber: string;
@@ -9,4 +12,5 @@ export interface IUserData {
     district: string;
     complement: string;
     description: string;
+    [key: string]: string | null;
   }

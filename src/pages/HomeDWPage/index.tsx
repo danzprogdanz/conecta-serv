@@ -28,6 +28,7 @@ import LoadingSpinnerCommon from "../../commons/LoadingSpinnerCommon";
 import TableHomeDWComponent from "./components/TableHomeComponent";
 import MapLeafLetComponent from "../../components/MapLeafLetComponent";
 import TableHomeComponent from "./components/TableHomeComponent";
+import { camerasGetAccess } from "../../services/dataAccess/userAcess";
 
 const HomePage: React.FC = () => {
   const [camValue, setCamValue] = useState<string | null>(null);
@@ -132,53 +133,24 @@ const HomePage: React.FC = () => {
   const handleFullScreen = () => {
     setFullScreenMap(!fullScreenMap);
   };
+
+  useEffect(() => {
+    camerasGetAccess({district: null, status: null}).then(result => console.log(result))
+  }, [])
   
   return (
     <PageLayoutRootStyled>
       <HomePageLayoutStyled>
-        {/* <TopContainerSupportStyled>
-          <BreadcrumbDWComponent levels={[{name: 'Home', path:'/home'}]}/>
-        </TopContainerSupportStyled>
         <FilterContainerStyled>
-          <SelectorDWCommon
-            name="cam"
-            label="Câmera"
-            placeholder="ex: C01.3"
-            onSelectedValue={(value) => { setCamValue(String(value)) }}
-            onRemoveOption={() => { setCamValue(null) }}
-            dropDownOptions={deviceCodes}
-            clearSelectors={clearSelectors}
-            resetClearSelectors={resetClearSelectors}
-          />
-          <SelectorDWCommon
-            name="state"
-            label="Estado"
-            placeholder="ex: Ceára"
-            onSelectedValue={(value) => { setStateValue(String(value)) }}
-            onRemoveOption={() => { setStateValue(null) }}
-            dropDownOptions={StateUFDataModelExamples} 
-            clearSelectors={clearSelectors}  
-            resetClearSelectors={resetClearSelectors}   
-          />
-          <SelectorDWCommon
-            name="city"
-            label="Cidade"
-            placeholder="ex: Fortaleza"
-            onSelectedValue={(value) => { setCityValue(String(value)) }}
-            onRemoveOption={() => { setCityValue(null) }}
-            dropDownOptions={CityDataModelExamples}
-            clearSelectors={clearSelectors}
-            resetClearSelectors={resetClearSelectors}
-          />
           <SelectorDWCommon
             name="district"
             label="Bairro"
             placeholder="ex: Aldeota"
             onSelectedValue={(value) => { setDistrictValue(String(value)) }}
             onRemoveOption={() => { setDistrictValue(null) }}
-            dropDownOptions={DistrictDataModelExamples}
+            //dropDownOptions={DistrictDataModelExamples}
             clearSelectors={clearSelectors}
-            resetClearSelectors={resetClearSelectors}
+            //resetClearSelectors={resetClearSelectors}
           />
           <SelectorDWCommon
             searchBar={false}
@@ -190,10 +162,10 @@ const HomePage: React.FC = () => {
             onRemoveOption={() => { setStatusValue(null) }}
             statusOption={true}
             clearSelectors={clearSelectors}
-            resetClearSelectors={resetClearSelectors}
+            //={resetClearSelectors}
           />
           <FilterButtonsContainerStyled>
-            <SmallButtonDWCommon
+            {/* <SmallButtonDWCommon
               onClick={handleFilter}
               variant="filter"
               tooltipContent="Filtrar"
@@ -202,9 +174,9 @@ const HomePage: React.FC = () => {
               onClick={cleanFilter}
               variant="cleanFilter"
               tooltipContent="Limpar Filtro"
-            />
+            /> */}
           </FilterButtonsContainerStyled>
-        </FilterContainerStyled> */}
+        </FilterContainerStyled>
         <MainContentContainerStyled>
           <MapWrapperStyled $fullScreenMap={fullScreenMap}>
             <MapLeafLetComponent

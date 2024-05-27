@@ -73,7 +73,9 @@ const InputCommon: React.FC<IProps> = ({
 
   return (
     <InputContainerStyled $width={width}>
-      <InputLabelStyled>{label}</InputLabelStyled>
+      <InputLabelStyled>{label}<InputErrorAlertContainerStyled>
+        {inputRequiredErrorList && inputError && (<InputErrorAlertWrapperStyled><InputErrorIconStyled/><InputErrorAlertMsgStyled>{getErrorDescription(inputRequiredErrorList.type)}</InputErrorAlertMsgStyled></InputErrorAlertWrapperStyled>)}
+      </InputErrorAlertContainerStyled></InputLabelStyled>
       <InputElementContainerStyled>
         <InputFieldStyled
           name={name}
@@ -96,9 +98,6 @@ const InputCommon: React.FC<IProps> = ({
           </ToggleButtonStyled>
         )}
       </InputElementContainerStyled>
-      <InputErrorAlertContainerStyled>
-        {inputRequiredErrorList && inputError && (<InputErrorAlertWrapperStyled><InputErrorIconStyled/><InputErrorAlertMsgStyled>{getErrorDescription(inputRequiredErrorList.type)}</InputErrorAlertMsgStyled></InputErrorAlertWrapperStyled>)}
-      </InputErrorAlertContainerStyled>
     </InputContainerStyled>
   );
 };
