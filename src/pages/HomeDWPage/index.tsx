@@ -200,7 +200,7 @@ const HomePage: React.FC = () => {
             </TableWrapperStyled>
           </LeftContainerSupportStyled>
         </MainContentContainerStyled>
-        <UserCardComponent/>  
+        {/* <UserCardComponent/>  */} 
       </HomePageLayoutStyled>
       {showEditDeviceToastNotification && (
         <ToastNotificationDWCommon
