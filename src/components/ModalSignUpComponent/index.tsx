@@ -12,6 +12,13 @@ import {
   ContentThreeContainerStyled,
   FirstLineInputsContainer,
   ContentFiveContainerStyled,
+  SelectedAnalyticsContainerStyled,
+  SelectedAnalyticsTagStyled,
+  SelectedAnalyticsColorStyled,
+  RemoveOptionIconStyled,
+  InputTagsWrapperStyled,
+  InputWrapperStyled,
+  AddTagButtonStyled,
 } from "./styled";
 import ModalDWCommon from "../../commons/ModalCommon";
 import TitleDWCommon from "../../commons/TitleDWCommon";
@@ -22,6 +29,7 @@ import SubtitleCommon from "../../commons/SubtitleCommon";
 import InputCommon from "../../commons/InputCommon";
 import { IUserData } from "../../interfaces/auth";
 import TextBoxCommon from "../../commons/TextBoxCommon";
+import { RemoveOptionButtonStyled } from "../MapLeafLetComponent/styled";
 
 interface IErrorObject {
   type: string;
@@ -30,19 +38,21 @@ interface IErrorObject {
 
 interface IProps {
   onCancel: () => void;
-  handleSignUp: (userType: IUserData) => void;
+  onSignUp: (userType: IUserData) => void;
   inputRequiredErrorList?: IErrorObject | null;
   onClickOut?: () => void;
 }
 
 const ModalSignUpComponent: React.FC<IProps> = ({
   onCancel,
-  handleSignUp,
+  onSignUp,
   inputRequiredErrorList,
   onClickOut,
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [userType, setUserType] = useState<string | null>(null);
+  const [tagInputValue, setTagInputValue] = useState<string>('');
+  const [tagsList, setTagsList] = useState<string[]>([]);
   const [userData, setUserData] = useState<IUserData>({
     userType: null,
     signUpEmail: "",
@@ -57,6 +67,7 @@ const ModalSignUpComponent: React.FC<IProps> = ({
     district: "",
     complement: "",
     description: "",
+    tagsList: [],
   });
   const [errorState, setErrorState] = useState<{type: string, fields: string[]}>({ type: '', fields: [] });
 
@@ -122,7 +133,20 @@ const ModalSignUpComponent: React.FC<IProps> = ({
         return;
       }
     }
-  
+
+    if (currentStep === 5) {
+      const requiredFields = ['tags'];
+      const missingFields = requiredFields.filter(field => userData[field]?.length === 0);
+
+      if (missingFields.length > 0) {
+        setErrorState({
+          type: "requiredField",
+          fields: missingFields,
+        });
+        return;
+      }
+    }
+
     setCurrentStep((prevStep) => prevStep + 1);
   };
   const handleBackClick = () => {
@@ -161,20 +185,69 @@ const ModalSignUpComponent: React.FC<IProps> = ({
     }));
   }, [userType]);
 
+  useEffect(() => {
+    setUserData((prevData) => ({
+      ...prevData,
+      tagsList: tagsList,
+    }));
+  }, [tagsList])
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
+
+    if (name === 'tags') {
+      const tagsArray = value.trim().split(' ');
+
+      // Check if there is only one word
+      if (tagsArray.length === 1) {
+        setTagInputValue(value.trim());
+      } 
+    } else {
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [name]: value,
+      }));
+    }
   };
 
   useEffect(() => {
     // to clean input errors when start typing
     setErrorState({ type: '', fields: [] });
 }, [userData]);
+
+const removeAnalytics = (valueToRemove: string) => {
+  setTagsList((prevSelected) => 
+    prevSelected.filter((value) => value !== valueToRemove)
+  );
+};
+
+const handleAddTag = () => {
+  const trimmedTag = tagInputValue.trim();
+  if (trimmedTag !== '' && !tagsList.includes(trimmedTag)) {
+    setTagsList((prevSelected) => [...prevSelected, trimmedTag]);
+  }
+  setTagInputValue('');
+};
+
+  const handleSignUp = () => {
+
+    if (currentStep === 5) {
+      const requiredFields = ['tags'];
+      const missingFields = requiredFields.filter(field => userData[field]?.length === 0);
+
+      if (missingFields.length > 0) {
+        setErrorState({
+          type: "requiredField",
+          fields: missingFields,
+        });
+        return;
+      }
+    }
+
+    onSignUp(userData)
+  } 
 
   const stepOne = () => (
     <>
@@ -382,7 +455,36 @@ const ModalSignUpComponent: React.FC<IProps> = ({
               : "Escreva uma descrição do serviço que você oferece."
           }
         />
-        <InputCommon label="Tags" placeholder="Digite tags" />
+        <InputTagsWrapperStyled>
+          <InputWrapperStyled>
+            <InputCommon 
+              name='tags'
+              label="Tags" 
+              placeholder="Digite tags"
+              onChange={handleChange}
+              value={tagInputValue}
+              inputRequiredErrorList={{
+                type: errorState.type,
+                fields: errorState.fields,
+              }}
+            />
+            <AddTagButtonStyled onClick={handleAddTag}> + </AddTagButtonStyled>
+          </InputWrapperStyled>
+          <SelectedAnalyticsContainerStyled>
+            {tagsList &&
+              Array.isArray(tagsList) &&
+              tagsList.map((el) => (
+                <SelectedAnalyticsTagStyled key={Math.random()}>
+                  <SelectedAnalyticsColorStyled>
+                    {el}
+                  </SelectedAnalyticsColorStyled>
+                  <RemoveOptionButtonStyled onClick={() => {removeAnalytics(el)}}>
+                    <RemoveOptionIconStyled />
+                  </RemoveOptionButtonStyled>
+                </SelectedAnalyticsTagStyled>
+              ))}
+          </SelectedAnalyticsContainerStyled>
+        </InputTagsWrapperStyled>
       </ContentFiveContainerStyled>
       <ButtonsContainerStyled>
         {userType === "contractor" ? (
@@ -391,7 +493,7 @@ const ModalSignUpComponent: React.FC<IProps> = ({
               Voltar
             </ButtonCommon>
             <ButtonCommon
-              onClick={() => userData && handleSignUp(userData)}
+              onClick={() => userData && handleSignUp()}
               $isDisabled={!userType}
             >
               Finalizar
@@ -423,7 +525,7 @@ const ModalSignUpComponent: React.FC<IProps> = ({
           Voltar
         </ButtonCommon>
         <ButtonCommon
-          onClick={() => userData && handleSignUp(userData)}
+          onClick={() => userData && onSignUp(userData)}
           $isDisabled={!userType}
         >
           Finalizar

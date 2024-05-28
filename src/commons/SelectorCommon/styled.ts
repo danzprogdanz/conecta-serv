@@ -45,7 +45,7 @@ export const SelectElementStyled = styled.select`
 
 export const SelectInputLabelStyled = styled.label<StyleProps>`
   margin-bottom: 0rem;
-  font-size: 10px;
+  font-size: 0.7rem;
   height: fit-content;
   width: fit-content;
   text-wrap: nowrap;

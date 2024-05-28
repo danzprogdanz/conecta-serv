@@ -29,18 +29,15 @@ import TableHomeDWComponent from "./components/TableHomeComponent";
 import MapLeafLetComponent from "../../components/MapLeafLetComponent";
 import TableHomeComponent from "./components/TableHomeComponent";
 import { camerasGetAccess } from "../../services/dataAccess/userAcess";
+import UserCardComponent from "../../components/UserCardComponent";
 
 const HomePage: React.FC = () => {
-  const [camValue, setCamValue] = useState<string | null>(null);
-  const [stateValue, setStateValue] = useState<string | null>(null);
-  const [cityValue, setCityValue] = useState<string | null>(null);
-  const [districtValue, setDistrictValue] = useState<string | null>(null);
-  const [statusValue, setStatusValue] = useState<boolean | null>(null);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [showToastNotification, setShowToastNotification] = useState(false);
   const [showDeleteDeviceToastNotification, setShowDeleteDeviceToastNotification] = useState(false);
   const [showEditDeviceToastNotification, setShowEditDeviceToastNotification] = useState(false);
+  const [usersData, setUsersData] = useState<any[]>([])
 
   const [openModalAddDevice, setOpenModalAddDevice] = useState<boolean>(false);
   
@@ -135,7 +132,7 @@ const HomePage: React.FC = () => {
   };
 
   useEffect(() => {
-    camerasGetAccess({district: null, status: null}).then(result => console.log(result))
+    camerasGetAccess({district: null, status: null  }).then(result => setUsersData(result))
   }, [])
   
   return (
@@ -146,10 +143,20 @@ const HomePage: React.FC = () => {
             name="district"
             label="Bairro"
             placeholder="ex: Aldeota"
-            onSelectedValue={(value) => { setDistrictValue(String(value)) }}
-            onRemoveOption={() => { setDistrictValue(null) }}
+            onSelectedValue={(value) => {}}
+            onRemoveOption={() => {}}
             //dropDownOptions={DistrictDataModelExamples}
             clearSelectors={clearSelectors}
+            //resetClearSelectors={resetClearSelectors}
+          />
+          <SelectorDWCommon
+            name="tags"
+            label="Tipo serviço | TAG's"
+            placeholder="ex: Marcenária"
+            //onSelectedValue={(value) => { setDistrictValue(String(value)) }}
+            //onRemoveOption={() => { setDistrictValue(null) }}
+            //dropDownOptions={DistrictDataModelExamples}
+            //clearSelectors={clearSelectors}
             //resetClearSelectors={resetClearSelectors}
           />
           <SelectorDWCommon
@@ -158,8 +165,8 @@ const HomePage: React.FC = () => {
             label="Status do dispositivo"
             placeholder="ex: Ativo"
             dropDownHeight="90px"
-            onSelectedValue={(value) => { setStatusValue(value === 'true' ? true : false ) }}
-            onRemoveOption={() => { setStatusValue(null) }}
+            onSelectedValue={(value) => {}}
+            onRemoveOption={() => {}}
             statusOption={true}
             clearSelectors={clearSelectors}
             //={resetClearSelectors}
@@ -188,11 +195,12 @@ const HomePage: React.FC = () => {
           <LeftContainerSupportStyled>
             <TableWrapperStyled>
               <TableHomeComponent
-                /* tableData={getHomeHelper(cameraData)} */
+                tableData={usersData}
               />
             </TableWrapperStyled>
           </LeftContainerSupportStyled>
         </MainContentContainerStyled>
+        <UserCardComponent/>  
       </HomePageLayoutStyled>
       {showEditDeviceToastNotification && (
         <ToastNotificationDWCommon

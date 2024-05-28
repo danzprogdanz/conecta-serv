@@ -288,3 +288,8 @@ export const NoOptionAvailableWrapper = styled.div`
   display: flex;
   color: ${colors.Cinza900};
 `
+
+export const TagWrapperStyled = styled.p`
+  border: 3px solid ${colors.Cinza900};
+  padding: 0.2rem 1rem;
+`

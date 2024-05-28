@@ -36,8 +36,7 @@ export const camerasGetAccess = async (filterData: {
     const data = doc.data();
     resultArray.push({
       id: doc.id,
-      district: data.district, 
-      name: data.name,
+      ...data
     });
   });
 

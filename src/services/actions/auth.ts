@@ -38,7 +38,8 @@ export const signInAction = async (email: string, password: string) => {
           street: userInfoData.street,
           district: userInfoData.district,
           complement: userInfoData.complement,
-          description: userInfoData.description
+          description: userInfoData.description,
+          tagsList: userInfoData.tagsList
         };
   
         const userDoc = doc(userCollection, newUser.uid);

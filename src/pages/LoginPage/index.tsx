@@ -266,7 +266,7 @@ const LoginPage: React.FC<IProps> = ({ children }) => {
         {showSignUpModal && (
           <ModalSignUpDWComponent
             onCancel={handleOpenSignUpModal}
-            handleSignUp={handleSignUp}
+            onSignUp={handleSignUp}
             inputRequiredErrorList={inputRequiredErrorList}
             onClickOut={() => setShowSignUpModal(false)}
           />

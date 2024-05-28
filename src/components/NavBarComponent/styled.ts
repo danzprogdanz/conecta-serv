@@ -13,7 +13,6 @@ export const ContainerNavBar = styled.div`
     background-color: #212A42;
     box-shadow: 0px 8px 10px 0px rgba(17, 17, 17, 0.20);
     height: 40px;
-    z-index: 99999; 
     padding: 8px;
     padding-left: 10rem;
     padding-right: 2.5vw;

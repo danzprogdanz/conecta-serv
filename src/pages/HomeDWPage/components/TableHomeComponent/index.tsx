@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ColumnHeadRowStyled, ColumnNameElementStyled, CustomLink, NoOptionAvailableWrapper, THeadStyled, TableCellActionsPropsStyled, TableCellPropsStyled, TableContainerStyled, TableRowStyled } from "./styled";
+import {
+  ColumnHeadRowStyled,
+  ColumnNameElementStyled,
+  CustomLink,
+  NoOptionAvailableWrapper,
+  THeadStyled,
+  TableCellActionsPropsStyled,
+  TableCellPropsStyled,
+  TableContainerStyled,
+  TableRowStyled,
+  TagWrapperStyled,
+} from "./styled";
 import StatusIndicatorCommon from "../../../../commons/StatusIndicatorCommon";
 import { useNavigate } from "react-router-dom";
 import SmallButtonCommon from "../../../../commons/SmallButtonCommon";
@@ -9,21 +20,18 @@ interface IProps {
 }
 
 // Import statements...
-const TableHomeComponent: React.FC<IProps> = ({
-  tableData,
-}) => {
+const TableHomeComponent: React.FC<IProps> = ({ tableData }) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [itemToDeleteId, setItemToDeleteId] = useState<string>('');
-  const [itemToDeleteCode, setItemToDeleteCode] = useState<string>('');
-  const [itemToEditId, setItemToEditId] = useState<string>('');
+  const [itemToDeleteId, setItemToDeleteId] = useState<string>("");
+  const [itemToDeleteCode, setItemToDeleteCode] = useState<string>("");
+  const [itemToEditId, setItemToEditId] = useState<string>("");
 
   useEffect(() => {
-    console.log(itemToDeleteCode)
-    console.log(itemToDeleteId)
+    console.log(itemToDeleteCode);
+    console.log(itemToDeleteId);
+  }, [itemToDeleteCode, itemToDeleteId]);
 
-  }, [itemToDeleteCode, itemToDeleteId])
-  
   const handleDeleteClick = (objectId: string, objectCode: string) => {
     setItemToDeleteId(objectId);
     setIsModalDeleteOpen(true);
@@ -35,82 +43,75 @@ const TableHomeComponent: React.FC<IProps> = ({
     setIsModalEditOpen(true);
   };
 
-  useEffect(() => {console.log(tableData)}, [tableData])
+  useEffect(() => {
+    console.log(tableData);
+  }, [tableData]);
 
   const navigate = useNavigate();
 
   const onClickTableCell = (id: string) => {
     navigate(`/dispositivos/${id}`);
-  }
+  };
 
   return (
     <>
       <TableContainerStyled $variant="details">
         <THeadStyled>
           <ColumnHeadRowStyled $variant="details">
-            <ColumnNameElementStyled $flex="1">xxxxx</ColumnNameElementStyled>
-            <ColumnNameElementStyled $flex="2">
-              yyyyyyyy
-            </ColumnNameElementStyled>
-            <ColumnNameElementStyled $flex="4">
-              wwwwwww
-            </ColumnNameElementStyled>
-            <ColumnNameElementStyled $flex="1.5">Status</ColumnNameElementStyled>
-            <ColumnNameElementStyled $flex="3">Ações</ColumnNameElementStyled>
+            <ColumnNameElementStyled $flex="3">Serviço</ColumnNameElementStyled>
+            <ColumnNameElementStyled $flex="1">Nome</ColumnNameElementStyled>
+            <ColumnNameElementStyled $flex="1">Bairro</ColumnNameElementStyled>
+            <ColumnNameElementStyled $flex="1">Status</ColumnNameElementStyled>
           </ColumnHeadRowStyled>
         </THeadStyled>
-        {/* <tbody>
-          {tableData.length > 0 ? (tableData.map((item: any, index: any) => (
-              <TableRowStyled  key={index} $variant="details">
-                <TableCellPropsStyled onClick={() => onClickTableCell(item.id)} $flex="1" $variant="details">
-                  {item.Camera}
+        <tbody>
+          {tableData.length > 0 ? (
+            tableData.map((item: any, index: any) => (
+              <TableRowStyled key={index} $variant="details">
+                <TableCellPropsStyled
+                  onClick={() => onClickTableCell(item.id)}
+                  $flex="3"
+                  $variant="details"
+                >
+                  {Array.isArray(item.tagsList) &&
+                    item.tagsList.length > 0 &&
+                    item.tagsList.map((el: string, index: number) => (
+                      <TagWrapperStyled key={index}>{el}</TagWrapperStyled>
+                    ))}
                 </TableCellPropsStyled>
-                <TableCellPropsStyled onClick={() => onClickTableCell(item.id)} $flex="2" $variant="details">
-                  {item.CidadeUF}
+                <TableCellPropsStyled
+                  onClick={() => onClickTableCell(item.id)}
+                  $flex="1"
+                  $variant="details"
+                >
+                  {item.name}
                 </TableCellPropsStyled>
-                <TableCellPropsStyled onClick={() => onClickTableCell(item.id)} $flex="4" $variant="details">
-                  {item.Endereco}
+                <TableCellPropsStyled
+                  onClick={() => onClickTableCell(item.id)}
+                  $flex="1"
+                  $variant="details"
+                >
+                  {item.district}
                 </TableCellPropsStyled>
-                <TableCellPropsStyled onClick={() => onClickTableCell(item.id)} $flex="1.5" $variant="details">
+                <TableCellPropsStyled
+                  onClick={() => onClickTableCell(item.id)}
+                  $flex="1"
+                  $variant="details"
+                >
                   <StatusIndicatorCommon isActive={item.Status} />
                 </TableCellPropsStyled>
-                <TableCellActionsPropsStyled $flex="3" $variant="details">
-                  <SmallButtonCommon
-                    /* variant="deleteElement"
-                    tooltipContent="Deletar"
-                    onClick={() => handleDeleteClick(item.id, item.Camera)}
-                  />
-                  <SmallButtonCommon
-                    /* variant="edit" 
-                    tooltipContent="Editar"
-                    onClick={() => handleEditClick(item.id)}
-                  />
-                  <CustomLink to={`/dispositivos/${item.id}/modulos`}>
-                    <SmallButtonCommon 
-                      /* variant="analytics"  
-                      tooltipContent="Analítico"
-                      onClick={() => console.log(item)}
-                    />
-                  </CustomLink>
-                  {/* <CustomLink to="/home/configurarcamera" > */}
-                    {/* <SmallButtonDWCommon 
-                      variant="camsettings" 
-                      tooltipContent="Câmera"
-                      $isDisabled={true}
-                  /> */}
-                  {/* </CustomLink> }
-                </TableCellActionsPropsStyled>
               </TableRowStyled>
-          ))) : (
+            ))
+          ) : (
             <tr>
               <td>
-              <NoOptionAvailableWrapper>
-                Sem opções disponíveis
-              </NoOptionAvailableWrapper>
+                <NoOptionAvailableWrapper>
+                  Sem opções disponíveis
+                </NoOptionAvailableWrapper>
               </td>
             </tr>
           )}
-        </tbody> */ }
+        </tbody>
       </TableContainerStyled>
     </>
   );

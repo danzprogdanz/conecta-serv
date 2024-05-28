@@ -12,5 +12,6 @@ export interface IUserData {
     district: string;
     complement: string;
     description: string;
-    [key: string]: string | null;
+    tagsList: string[];
+    [key: string]: string[] | string | null;
   }
