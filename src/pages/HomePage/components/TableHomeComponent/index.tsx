@@ -17,10 +17,12 @@ import SmallButtonCommon from "../../../../commons/SmallButtonCommon";
 
 interface IProps {
   tableData?: any;
+  onClickTableCell: (id: string) => void;
+  userSelected?: string | null;
 }
 
 // Import statements...
-const TableHomeComponent: React.FC<IProps> = ({ tableData }) => {
+const TableHomeComponent: React.FC<IProps> = ({ tableData, onClickTableCell, userSelected }) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [itemToDeleteId, setItemToDeleteId] = useState<string>("");
@@ -49,10 +51,6 @@ const TableHomeComponent: React.FC<IProps> = ({ tableData }) => {
 
   const navigate = useNavigate();
 
-  const onClickTableCell = (id: string) => {
-    navigate(`/dispositivos/${id}`);
-  };
-
   return (
     <>
       <TableContainerStyled $variant="details">
@@ -67,7 +65,7 @@ const TableHomeComponent: React.FC<IProps> = ({ tableData }) => {
         <tbody>
           {tableData.length > 0 ? (
             tableData.map((item: any, index: any) => (
-              <TableRowStyled key={index} $variant="details">
+              <TableRowStyled key={index} $variant="details" $isActive={userSelected === item.id}>
                 <TableCellPropsStyled
                   onClick={() => onClickTableCell(item.id)}
                   $flex="3"

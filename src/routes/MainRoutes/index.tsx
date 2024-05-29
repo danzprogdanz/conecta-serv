@@ -5,8 +5,11 @@ import LoadingSpinnerCommon from '../../commons/LoadingSpinnerCommon';
 
 //import { useUserAuth } from '../../contexts/Auth/UserAuthContext';
 import { signOutAction } from '../../services/actions/auth';
-import HomePage from '../../pages/HomeDWPage';
+import HomePage from '../../pages/HomePage';
 import NavBarComponent from '../../components/NavBarComponent';
+import SchedulesPage from '../../pages/SchedulesPage';
+import SettingsPage from '../../pages/SettingsPage';
+import FeedbackAnalisysPage from '../../pages/FeedbackAnalisysPage';
 
 const MainRoutes: React.FC = () => {
 
@@ -33,6 +36,9 @@ const MainRoutes: React.FC = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<HomePage />} /> 
+        <Route path="/agendamentos" element={<SchedulesPage/>} /> 
+        <Route path="/configuracoes" element={<SettingsPage/>} />
+        <Route path="/feedback" element={<FeedbackAnalisysPage/>} /> 
         <Route path="/*" element={<Navigate to="/"/>} />      
       </Routes>
       {showLoadingSpinner && <LoadingSpinnerCommon/>}

@@ -55,11 +55,26 @@ const NavBarComponent: React.FC<IProps> = ({ children, handleSignOut }) => {
       <CustomLinkLogo to='/home'>
       </CustomLinkLogo>
       <List>
-{/*         <CustomLink to='/home'>
+        <CustomLink to='/home'>
           <ListItem onClick={() => handleActive(0)}>
             Home{activeOption === 0 && <ActiveDiv />}
           </ListItem>
-        </CustomLink> */}
+        </CustomLink>
+        <CustomLink to='/agendamentos'>
+          <ListItem onClick={() => handleActive(1)}>
+            Agendamentos{activeOption === 1 && <ActiveDiv />}
+          </ListItem>
+        </CustomLink>
+        <CustomLink to='/configuracoes'>
+          <ListItem onClick={() => handleActive(2)}>
+            Configurações{activeOption === 2 && <ActiveDiv />}
+          </ListItem>
+        </CustomLink>
+        <CustomLink to='/feedback'>
+          <ListItem onClick={() => handleActive(3)}>
+            Análise do feedback{activeOption === 3 && <ActiveDiv />}
+          </ListItem>
+        </CustomLink>
       </List>
       <ButtonWrapperStyled>
         <ButtonCommon onClick={handleSignOut} variant='outline'>Sair</ButtonCommon>

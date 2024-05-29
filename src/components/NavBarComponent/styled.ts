@@ -16,6 +16,7 @@ export const ContainerNavBar = styled.div`
     padding: 8px;
     padding-left: 10rem;
     padding-right: 2.5vw;
+    z-index: 999;
 
     @media (max-width: 768px) {
       padding-left: 0rem;

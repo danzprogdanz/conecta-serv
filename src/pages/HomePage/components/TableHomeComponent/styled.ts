@@ -236,8 +236,22 @@ export const TableCellActionsPropsStyled = styled(TableCellStyled)<{
     `}
 `;
 
+const isActiveStyle = css`
+      background-color: #101213;
+      cursor: default;
+
+      &:hover {
+        background-color: #101213;
+      }
+
+      &:active {
+        background-color: #101213;
+      }
+    `;
+
 export const TableRowStyled = styled.tr<{
   $variant?: 'grid' | 'details';
+  $isActive?: boolean | undefined;
 }>`
   ${(props) => {
     switch (props.$variant) {
@@ -261,6 +275,10 @@ export const TableRowStyled = styled.tr<{
             background-color: ${colors.DarkTheme500};
             cursor: pointer;
           }
+
+          &:active {
+            background-color: #101213
+          }
         `;
       default:
         return css`
@@ -268,6 +286,8 @@ export const TableRowStyled = styled.tr<{
         `;
     }
   }}
+  ${(props) => props.$isActive && isActiveStyle}
+
 `;
 
 export const CustomLink = styled(Link)`

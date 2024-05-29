@@ -6,9 +6,6 @@ import {
   MainContentContainerStyled,
   MapWrapperStyled,
   LeftContainerSupportStyled,
-  TableContainerStyled,
-  ColumnHeadRowStyled,
-  ColumnNameElementStyled,
   TableWrapperStyled,
   TableRowStyled,
   TableCellPropsStyled,
@@ -19,17 +16,16 @@ import {
 import { PageLayoutRootStyled } from "../../commons/PageLayoutRootCommon/styled";
 import PageTitleLabelDWCommon from "../../commons/PageTitleLabelCommon";
 import SelectorDWCommon from "../../commons/SelectorCommon";
-//import SmallButtonDWCommon from "../../commons/SmallButtonDWCommon";
 import ButtonCommon from "../../commons/ButtonCommon";
 //import MapLeafLetDWComponent from "../../components/MapLeafLetDWComponent";
 import ToastNotificationDWCommon from "../../commons/ToastNotificationDWCommon";
 import LoadingSpinnerCommon from "../../commons/LoadingSpinnerCommon";
-//import { getHomeHelper } from "../../utils/camerasDataUtils/getHomeHelper";
-import TableHomeDWComponent from "./components/TableHomeComponent";
 import MapLeafLetComponent from "../../components/MapLeafLetComponent";
 import TableHomeComponent from "./components/TableHomeComponent";
-import { camerasGetAccess } from "../../services/dataAccess/userAcess";
+import { GetUsersAccess } from "../../services/dataAccess/userAcess";
 import UserCardComponent from "../../components/UserCardComponent";
+import { filterUserByIdHelper } from "../../utils/filterUserByIdHelper";
+import ModalConfirmScheduleComponent from "../../components/ModalConfirmScheduleComponent";
 
 const HomePage: React.FC = () => {
 
@@ -38,14 +34,15 @@ const HomePage: React.FC = () => {
   const [showDeleteDeviceToastNotification, setShowDeleteDeviceToastNotification] = useState(false);
   const [showEditDeviceToastNotification, setShowEditDeviceToastNotification] = useState(false);
   const [usersData, setUsersData] = useState<any[]>([])
-
-  const [openModalAddDevice, setOpenModalAddDevice] = useState<boolean>(false);
   
   const [fullScreenMap, setFullScreenMap] = useState<boolean>(true);
   const [fullScreenMapTimeoutDone, setFullScreenMapTimeoutDone] =
     useState(false);
 
   const [clearSelectors, setClearSelectors] = useState(false);
+
+  const [userSelected, setUserSelected] = useState<string | null>(null)
+  const [userDataSelected, setUserDataSelected] = useState<any>(null)
 
   useEffect(() => {
     if (!fullScreenMapTimeoutDone) {
@@ -86,10 +83,6 @@ const HomePage: React.FC = () => {
       };
     }
   }, [showToastNotification, showDeleteDeviceToastNotification, showEditDeviceToastNotification]);
-
-  const handleOpenModalAddDevice = () => {
-    setOpenModalAddDevice(true);
-  };
 
 
   /* const handleFilter = () => {
@@ -132,8 +125,19 @@ const HomePage: React.FC = () => {
   };
 
   useEffect(() => {
-    camerasGetAccess({district: null, status: null  }).then(result => setUsersData(result))
+    GetUsersAccess({district: null, status: null  }).then(result => setUsersData(result))
   }, [])
+
+  const handleClickTable = (id: string) => {
+    setUserSelected(id)
+  }
+
+  useEffect(() => {
+    console.log(userSelected)
+    if (userSelected) {
+      setUserDataSelected(filterUserByIdHelper(usersData, userSelected))
+    }
+  }, [userSelected])
   
   return (
     <PageLayoutRootStyled>
@@ -196,12 +200,18 @@ const HomePage: React.FC = () => {
             <TableWrapperStyled>
               <TableHomeComponent
                 tableData={usersData}
+                onClickTableCell={handleClickTable}
+                userSelected={userSelected}
               />
             </TableWrapperStyled>
           </LeftContainerSupportStyled>
         </MainContentContainerStyled>
-        {/* <UserCardComponent/>  */} 
+        {userSelected && <UserCardComponent
+          onCloseCard={() => setUserSelected(null)}
+          userData={userDataSelected}
+        />}  
       </HomePageLayoutStyled>
+      { /* <ModalConfirmScheduleComponent/> */}
       {showEditDeviceToastNotification && (
         <ToastNotificationDWCommon
           variant="success"

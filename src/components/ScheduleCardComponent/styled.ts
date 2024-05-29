@@ -50,27 +50,6 @@ export const CloseButtonStyled = styled.button`
 export const CardTitleStyled = styled.h1`
   margin: 0;
   color: ${colors.Cinza500};
-  white-space: nowrap;
-  max-width: 90%;
-  overflow-x: auto;
-  margin-left: auto;
-  margin-right: auto;
-
-  &::-webkit-scrollbar {
-    width: 8px; /* Increase the width of the scrollbar to accommodate the "margin" */
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #3BEAB3;
-    border-radius: 10px;
-    border: 4px solid transparent; /* Creates the effect of margin inside the scrollbar */
-    background-clip: padding-box; /* Ensures the background color doesn't cover the border */
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: rgba(210, 211, 212, 0.5);
-    border-radius: 10px;
-  }
 ` 
 
 export const CardSubtitleStyled = styled.h3`
@@ -105,7 +84,6 @@ export const TagWrapperStyled = styled.p`
   color: ${colors.Cinza100};
   padding: 0.2rem 1rem;
   margin: 0;
-  font-size: 0.7rem;
 `
 
 export const SectionsButtonsWrapperStyled = styled.div`
@@ -120,10 +98,63 @@ export const SectionsButtonsWrapperStyled = styled.div`
 
 export const SectionContentContainerStyled = styled.div`
   height: 46%;
-  width: 80%;
+  width: 74%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1rem;
+  overflow-y: auto;
+  padding-right: 12px;
+
+  &::-webkit-scrollbar {
+    width: 16px; /* Increase the width of the scrollbar to accommodate the "margin" */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #3BEAB3;
+    border-radius: 10px;
+    border: 4px solid transparent; /* Creates the effect of margin inside the scrollbar */
+    background-clip: padding-box; /* Ensures the background color doesn't cover the border */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(210, 211, 212, 0.5);
+    border-radius: 10px;
+  }
+`
+
+export const ScheduleCardRootStyled = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const ScheduleContentWrapperStyled = styled.div`
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+`
+
+export const SchedulesPickerBoardStyled = styled.div`
+  height: 90%;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  //border: 3px solid red;
+`
+
+export const SchedulesElementsWrapperStyled = styled.div`
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
   overflow-y: auto;
 
   &::-webkit-scrollbar {

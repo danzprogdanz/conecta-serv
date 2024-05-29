@@ -21,7 +21,7 @@ import {
   AddTagButtonStyled,
 } from "./styled";
 import ModalDWCommon from "../../commons/ModalCommon";
-import TitleDWCommon from "../../commons/TitleDWCommon";
+import TitleDWCommon from "../../commons/TitleCommon";
 import InputDWCommon from "../../commons/InputCommon";
 import UserTypeButtonCommon from "../../commons/UserTypeButtonCommon";
 import ButtonCommon from "../../commons/ButtonCommon";

@@ -2,7 +2,7 @@ import { collection, addDoc, where, query, getDocs, deleteDoc, updateDoc, doc, g
 import { /* bucket, */ db } from "../firebase/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-export const camerasGetAccess = async (filterData: {
+export const GetUsersAccess = async (filterData: {
   district: string | null;
   status: boolean | null;
 }) => {

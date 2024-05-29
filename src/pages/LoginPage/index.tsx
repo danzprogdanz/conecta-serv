@@ -12,7 +12,7 @@ import {
   DescriptionStyled,
 } from "./styled";
 
-import TitleDWCommon from "../../commons/TitleDWCommon";
+import TitleDWCommon from "../../commons/TitleCommon";
 import InputDWCommon from "../../commons/InputCommon";
 import ButtonDWCommon from "../../commons/ButtonCommon";
 import ToastNotificationDWCommon from "../../commons/ToastNotificationDWCommon";

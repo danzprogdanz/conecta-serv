@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { colors } from '../../assets/styles/colors';
 
 const isDisabledStyle = css`
-    border: 3px solid ${colors.DarkTheme800};
+          border: 3px solid ${colors.DarkTheme800};
           background-color: ${colors.DarkTheme400};
           color: ${colors.DarkTheme800};
           cursor: not-allowed;
@@ -55,9 +55,9 @@ const ButtonBaseRootStyled = styled.button`
 `
 
 const isActiveStyle = css`
-      border: solid 3px ${colors.Principal100};
-      background-color: ${colors.Principal300};
-      color: ${colors.Principal800};
+      background-color: #3BEAB3;
+      color: ${colors.Black};
+      border: solid 3px #3BEAB3;
 
       ${(props) => props.theme?.colors && (`border: solid 3px ${props.theme?.colors.Wine};`)}; 
       ${(props) => props.theme?.colors && (`background-color: ${props.theme?.colors.Yellow};`)}; 
@@ -130,8 +130,8 @@ export const ButtonRootStyled = styled(ButtonBaseRootStyled)<{
         `;
       case "disabled":
         return css`
-          border: 3px solid ${colors.Principal400};
-          background-color: ${colors.Principal400};
+          border: 3px solid ${colors.Cinza1000};
+          background-color: ${colors.Cinza1000};
           opacity: 0.5;
           color: ${colors.Cinza100};
           cursor: not-allowed;
@@ -141,8 +141,8 @@ export const ButtonRootStyled = styled(ButtonBaseRootStyled)<{
           //${(props) => props.theme?.colors && (`background-color: ${props.theme?.colors?.Cinza800};`)};
 
           &:hover {
-            border: 3px solid ${colors.Principal400};
-            background-color: ${colors.Principal400};
+            border: 3px solid ${colors.Cinza1000};
+            background-color: ${colors.Cinza1000};
             opacity: 0.5;
             color: ${colors.Cinza100};
             cursor: not-allowed;
@@ -186,7 +186,7 @@ export const ButtonRootStyled = styled(ButtonBaseRootStyled)<{
         `;
         case "defaultSmall":
           return css`
-            
+              background-color: transparent;
               height: 1.6rem;
               font-size: 0.7rem;
             
