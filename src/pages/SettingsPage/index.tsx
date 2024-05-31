@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
-import {
-  HomePageLayoutStyled,
-  FilterContainerStyled,
-  FilterButtonsContainerStyled,
-  MainContentContainerStyled,
-  MapWrapperStyled,
-  LeftContainerSupportStyled,
-  TableWrapperStyled,
-  TableRowStyled,
-  TableCellPropsStyled,
-  THeadStyled,
-  CustomLink,
-  TopContainerSupportStyled,
-} from "./styled";
+import { SettingsPageLayoutStyled } from "./styled";
 import { PageLayoutRootStyled } from "../../commons/PageLayoutRootCommon/styled";
+import WeeklyConfigDefaultComponent from "./components/WeeklyConfigDefaultComponent";
+import ExecptionDateConfigComponent from "./components/ExecptionDateConfigComponent";
 
 const SettingsPage: React.FC = () => {
 
   
   return (
     <PageLayoutRootStyled>
-      <h1>CONFIGURAÇÕES</h1>
+      <SettingsPageLayoutStyled>
+        <WeeklyConfigDefaultComponent
+          title='Disponibilidade de Horários semanais'
+        />
+        <ExecptionDateConfigComponent
+          title='Data atípica'
+        />
+      </SettingsPageLayoutStyled>
     </PageLayoutRootStyled>
   );
 };

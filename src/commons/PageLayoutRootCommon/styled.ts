@@ -25,3 +25,4 @@ export const PageLayoutRootStyled = styled.div`
     width: 99.2%;
   }
 `;
+

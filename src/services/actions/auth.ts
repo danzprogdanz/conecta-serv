@@ -39,7 +39,10 @@ export const signInAction = async (email: string, password: string) => {
           district: userInfoData.district,
           complement: userInfoData.complement,
           description: userInfoData.description,
-          tagsList: userInfoData.tagsList
+          schedulesConfigs: userInfoData.schedulesConfigs,
+          tagsList: userInfoData.tagsList,
+          schedulesConfigsExceptions: userInfoData.schedulesConfigsExceptions,
+          userSchedules: userInfoData.userSchedules,
         };
   
         const userDoc = doc(userCollection, newUser.uid);

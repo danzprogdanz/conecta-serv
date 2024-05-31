@@ -29,6 +29,6 @@ code {
 }
 
 .example-custom-input:focus {
-  outline: none;
+
   box-shadow: 0 0 0 4px rgba(59, 234, 179, 0.4);
 }

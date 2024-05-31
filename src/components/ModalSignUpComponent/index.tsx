@@ -30,6 +30,8 @@ import InputCommon from "../../commons/InputCommon";
 import { IUserData } from "../../interfaces/auth";
 import TextBoxCommon from "../../commons/TextBoxCommon";
 import { RemoveOptionButtonStyled } from "../MapLeafLetComponent/styled";
+import { scheduleConfigsExceptionModel, schedulesConfigsDefault } from "../../models/schedulesSettings";
+import { userSchedulesModel } from "../../models/userSchedules";
 
 interface IErrorObject {
   type: string;
@@ -62,12 +64,15 @@ const ModalSignUpComponent: React.FC<IProps> = ({
     lastName: "",
     cellNumber: "",
     organization: "",
-    adressNumber: "",
+    addressNumber: "",
     street: "",
     district: "",
     complement: "",
     description: "",
     tagsList: [],
+    schedulesConfigs: schedulesConfigsDefault,
+    schedulesConfigsExceptions: scheduleConfigsExceptionModel,
+    userSchedules: userSchedulesModel,
   });
   const [errorState, setErrorState] = useState<{type: string, fields: string[]}>({ type: '', fields: [] });
 
@@ -136,7 +141,11 @@ const ModalSignUpComponent: React.FC<IProps> = ({
 
     if (currentStep === 5) {
       const requiredFields = ['tags'];
-      const missingFields = requiredFields.filter(field => userData[field]?.length === 0);
+
+      const missingFields = requiredFields.filter(field => {
+        const value = userData[field];
+        return (typeof value === 'string' || Array.isArray(value)) && value.length === 0;
+      });
 
       if (missingFields.length > 0) {
         setErrorState({
@@ -235,7 +244,10 @@ const handleAddTag = () => {
 
     if (currentStep === 5) {
       const requiredFields = ['tags'];
-      const missingFields = requiredFields.filter(field => userData[field]?.length === 0);
+      const missingFields = requiredFields.filter(field => {
+        const value = userData[field];
+        return (typeof value === 'string' || Array.isArray(value)) && value.length === 0;
+      });
 
       if (missingFields.length > 0) {
         setErrorState({

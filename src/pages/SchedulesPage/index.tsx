@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import {
-  HomePageLayoutStyled,
-  FilterContainerStyled,
-  FilterButtonsContainerStyled,
-  MainContentContainerStyled,
-  MapWrapperStyled,
-  LeftContainerSupportStyled,
-  TableWrapperStyled,
-  TableRowStyled,
-  TableCellPropsStyled,
-  THeadStyled,
-  CustomLink,
-  TopContainerSupportStyled,
+  SchedulesPageLayoutStyled
 } from "./styled";
 import { PageLayoutRootStyled } from "../../commons/PageLayoutRootCommon/styled";
+import SchedulesListComponent from "../../components/SchedulesListComponent";
+import { userSchedulesModel } from "../../models/userSchedules";
 
 const SchedulesPage: React.FC = () => {
 
   
   return (
     <PageLayoutRootStyled>
-      <h1>SCHEDULES PAGE</h1>
+      <SchedulesPageLayoutStyled>
+        <SchedulesListComponent
+          title='Criados por mim'
+          schedulesData={userSchedulesModel.SchedulesCreateByMe}
+        />
+        <SchedulesListComponent
+          title='Criados por outros'
+          schedulesData={userSchedulesModel.SchedulesCreateByOthers}
+        />
+      </SchedulesPageLayoutStyled>
     </PageLayoutRootStyled>
   );
 };

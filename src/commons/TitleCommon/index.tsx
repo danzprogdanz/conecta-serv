@@ -7,9 +7,9 @@ interface IProps {
   variant?: 'modal' | 'subtitle' | 'sectionTitle'; 
 }
 
-const TitleDWCommon: React.FC<IProps> = ({ children, tag = 'h2', variant }) => {
+const TitleCommon: React.FC<IProps> = ({ children, tag = 'h2', variant }) => {
 
   return <TitleRootStyled as={tag} $variant={variant}>{children}</TitleRootStyled>;
 };
 
-export default TitleDWCommon;
+export default TitleCommon;
