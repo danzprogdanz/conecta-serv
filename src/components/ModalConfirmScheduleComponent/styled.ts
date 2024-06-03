@@ -19,6 +19,8 @@ export const ModalConfirmDeleteRootStyled = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 1.4rem;
+  color: black;
+  height: 100%;
 `
 
 export const SubTitleModalStyled = styled.p`
@@ -77,5 +79,37 @@ export const TitleWrapperStyled = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+`
+
+export const LeftDivContainerStyled = styled.div`
+  display: flex;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+`
+
+export const RightDivContainerStyled = styled.div`
+  display: flex;
+  height: 100%;
+  width: 50%;
+`
+
+export const MainContentContainerStyled = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  //align-items: center;
+  justify-content: space-between;
+`
+
+export const TuplaInfoStyled = styled.div`
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   gap: 1rem;
 `

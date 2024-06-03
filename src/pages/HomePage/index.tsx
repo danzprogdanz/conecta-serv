@@ -22,14 +22,17 @@ import ToastNotificationDWCommon from "../../commons/ToastNotificationDWCommon";
 import LoadingSpinnerCommon from "../../commons/LoadingSpinnerCommon";
 import MapLeafLetComponent from "../../components/MapLeafLetComponent";
 import TableHomeComponent from "./components/TableHomeComponent";
-import { GetUsersAccess, GetUsersAccessFilter } from "../../services/dataAccess/userAcess";
+import { GetUsersAccess, GetUsersAccessFilter, userAddDestinityScheduleAccess, userAddOriginScheduleAccess } from "../../services/dataAccess/userAcess";
 import UserCardComponent from "../../components/UserCardComponent";
 import { filterUserByIdHelper } from "../../utils/filterUserByIdHelper";
 import ModalConfirmScheduleComponent from "../../components/ModalConfirmScheduleComponent";
 import { getHomeHelper } from "../../utils/getHomeHelper";
 import SmallButtonCommon from "../../commons/SmallButtonCommon";
+import { useUserAuth } from "../../contexts/Auth/UserAuthContext";
 
 const HomePage: React.FC = () => {
+
+  const { user } = useUserAuth();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [showToastNotification, setShowToastNotification] = useState(false);
@@ -52,6 +55,11 @@ const HomePage: React.FC = () => {
 
   const [triggerEffectFilter, setTriggerEffectFilter] = useState(false);
 
+  const [openModalConfirmSchedule, setOpenModalConfirmSchedule] = useState<boolean>(false)
+  
+  const [startDate, setStartDate] = useState(new Date());
+  const [hour, setHour] = useState<number | null>(null);
+
   const [filterData, setFilterData] = useState<{
     district: string | null;
     tags: string[] | null;
@@ -62,6 +70,16 @@ const HomePage: React.FC = () => {
     status: null,
   });
 
+  interface UserData {
+    message: string;
+    scheduleId: number;
+    createAt: number;
+    userId: any;
+    startHour: number | null;
+    date: string;
+  };
+
+  const [originUserData, setOriginUserData] = useState<UserData | null>(null)
 
   useEffect(() => {
     if (!fullScreenMapTimeoutDone) {
@@ -157,6 +175,31 @@ const HomePage: React.FC = () => {
       setUserDataSelected(filterUserByIdHelper(usersData, userSelected))
     }
   }, [userSelected])
+
+  function formatDate(date: Date): string {
+    // Extract the day, month, and year
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const year = String(date.getFullYear()).slice(-2); // Get the last two digits of the year
+  
+    // Return the formatted date string
+    return `${day}/${month}/20${year}`;
+  }
+
+  useEffect(() => {
+    if(userDataSelected && userDataSelected.id) {
+      setOriginUserData({
+        message: '',
+        scheduleId: Math.random(),
+        createAt: Date.now(),
+        userId: userDataSelected.id,
+        startHour: hour,
+        date: formatDate(startDate as Date)
+      })
+    }
+      
+
+  }, [userDataSelected, hour, startDate])
   
 
   useEffect(() => {
@@ -197,7 +240,7 @@ const HomePage: React.FC = () => {
   }, [triggerEffectFilter])
 
   useEffect(() => {
-    console.log(usersData)
+    console.log('usersData', usersData)
   }, [usersData])
 
   const getDistricts = (users: any[]): string[] => {
@@ -217,6 +260,42 @@ const HomePage: React.FC = () => {
 
     console.log(filterData)
   }, [filterData])
+
+  const handleConfirmSchedule = (message: string) => {
+    setOriginUserData((prev) => {
+      const baseState = {
+        ...prev,
+        message,
+        scheduleId: prev?.scheduleId ?? 0,
+        createAt: prev?.createAt ?? Date.now(),
+        userId: prev?.userId ?? user?.uid ?? null,
+        startHour: prev?.startHour ?? null,
+        date: prev?.date ?? '',
+      };
+  
+      // Create the state for userAddOriginScheduleAccess
+      const newStateForOrigin = {
+        ...baseState,
+        userId: userDataSelected?.id ?? baseState.userId,
+      };
+  
+      console.log(`Confirmed schedule for date: ${startDate} and hour ${hour} | ${message}`);
+      
+      if (user && user.uid) {
+        userAddOriginScheduleAccess(user.uid, newStateForOrigin);
+      }
+  
+      // Use the original state for userAddDestinityScheduleAccess
+      if(userDataSelected && userDataSelected.id) {
+        userAddDestinityScheduleAccess(userDataSelected.id, baseState);
+      }
+  
+      return baseState;
+    });
+  
+    setOpenModalConfirmSchedule(false);
+  };
+
 
   return (
     <PageLayoutRootStyled>
@@ -257,12 +336,12 @@ const HomePage: React.FC = () => {
           <FilterButtonsContainerStyled>
             <SmallButtonCommon
               onClick={handleFilter}
-              //variant="filter"
+              variant="filter"
               tooltipContent="Filtrar"
             />
             <SmallButtonCommon
               onClick={() => {}/* cleanFilter */}
-              //variant="cleanFilter"
+              variant="cleanFilter"
               tooltipContent="Limpar Filtro"
             />
           </FilterButtonsContainerStyled>
@@ -288,6 +367,11 @@ const HomePage: React.FC = () => {
         {userSelected && <UserCardComponent
           onCloseCard={() => setUserSelected(null)}
           userData={userDataSelected}
+          onConfirmSchedule={() => setOpenModalConfirmSchedule(true)}
+          startDate={startDate} 
+          setStartDate={setStartDate}
+          hour={hour}
+          setHour={setHour}
         />}  
       </HomePageLayoutStyled>
       { /* <ModalConfirmScheduleComponent/> */}
@@ -298,6 +382,15 @@ const HomePage: React.FC = () => {
         />
       )}
       {loading && <LoadingSpinnerCommon />}
+      {openModalConfirmSchedule && 
+        <ModalConfirmScheduleComponent
+          onCancel={() => setOpenModalConfirmSchedule(false)}
+          onClickOut={() => setOpenModalConfirmSchedule(false)}
+          userData={userDataSelected}
+          onConfirmSchedule={handleConfirmSchedule}
+          startDate={startDate}
+          hour={hour}
+      />}
     </PageLayoutRootStyled>
   );
 };

@@ -138,3 +138,75 @@ export const userUpdateSchedulesConfigAccess = async (deviceToUpdateId: string, 
     throw error;
   }
 };
+
+export const userAddOriginScheduleAccess = async (deviceToUpdateId: string, addData: any) => {
+  try {
+    const camerasCollection = collection(db, 'users'); // Update collection name
+    const docRef = doc(camerasCollection, deviceToUpdateId);
+
+    // Retrieve the document snapshot
+    const docSnapshot = await getDoc(docRef);
+
+    // Check if the document exists
+    if (docSnapshot.exists()) {
+      // Merge the existing data with the updated data
+      const existingData = docSnapshot.data();
+      if (existingData && existingData.userSchedules && existingData.userSchedules.SchedulesCreateByMe) {
+        existingData.userSchedules.SchedulesCreateByMe.push(addData);
+      } else {
+        // If the array doesn't exist, create it and add the data
+        existingData.userSchedules = {
+          SchedulesCreateByMe: [addData],
+          SchedulesCreateByOthers: existingData.userSchedules ? existingData.userSchedules.SchedulesCreateByOthers : []
+        };
+      }
+
+      // Update the document in the 'camerasCollection' with the updated data
+      await setDoc(docRef, existingData);
+
+      console.log("Document with deviceToUpdateId:", deviceToUpdateId, "updated successfully");
+    } else {
+      console.error("Document with deviceToUpdateId:", deviceToUpdateId, "does not exist");
+    }
+  } catch (error) {
+    // Handle errors
+    console.error('Error updating device document:', error);
+    throw error;
+  }
+};
+
+export const userAddDestinityScheduleAccess = async (deviceToUpdateId: string, addData: any) => {
+  try {
+    const camerasCollection = collection(db, 'users'); // Update collection name
+    const docRef = doc(camerasCollection, deviceToUpdateId);
+
+    // Retrieve the document snapshot
+    const docSnapshot = await getDoc(docRef);
+
+    // Check if the document exists
+    if (docSnapshot.exists()) {
+      // Merge the existing data with the updated data
+      const existingData = docSnapshot.data();
+      if (existingData && existingData.userSchedules && existingData.userSchedules.SchedulesCreateByOthers) {
+        existingData.userSchedules.SchedulesCreateByOthers.push(addData);
+      } else {
+        // If the array doesn't exist, create it and add the data
+        existingData.userSchedules = {
+          SchedulesCreateByOthers: [addData],
+          SchedulesCreateByMe: existingData.userSchedules ? existingData.userSchedules.SchedulesCreateByMe : []
+        };
+      }
+
+      // Update the document in the 'camerasCollection' with the updated data
+      await setDoc(docRef, existingData);
+
+      console.log("Document with deviceToUpdateId:", deviceToUpdateId, "updated successfully");
+    } else {
+      console.error("Document with deviceToUpdateId:", deviceToUpdateId, "does not exist");
+    }
+  } catch (error) {
+    // Handle errors
+    console.error('Error updating device document:', error);
+    throw error;
+  }
+};

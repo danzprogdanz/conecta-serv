@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { colors } from "../../assets/styles/colors";
 import { buttonsVariants, getButtonStyles, getIconStyles } from "../../utils/SmallButtonHelper";
+import { colors2 } from "../../assets/styles/colors2";
 
 export const ToolTipStyled = styled.div`
   display:  none;
@@ -31,7 +32,7 @@ export const BaseSmallButtonStyled = styled.button<{
   border: transparent;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.Principal400};
+  background-color: ${colors2.DarkTheme800};
   outline: none;
   color: ${colors.Cinza100};
   cursor: pointer;
@@ -39,7 +40,7 @@ export const BaseSmallButtonStyled = styled.button<{
   ${(props) => props.theme?.colors && (`background-color: ${props.theme?.colors?.carrotOrange};`)};
 
   &:hover{
-    background-color: ${colors.Principal300};
+    background-color: ${colors2.DarkTheme100};
     ${(props) => props.theme?.colors && (`background-color: ${props.theme?.colors?.Yellow};`)};
 
   }
@@ -90,7 +91,8 @@ export const SmallIconVariant = styled(BaseIcon)<{
   $variant?: keyof typeof buttonsVariants;
   $isActive?: boolean | undefined;
 }>`
-  /*  */
+    ${(props) => getIconStyles({ variant: props.$variant, isActive: props.$isActive })}
+
 `;
 
 export const SmallButtonRootContainerStyled = styled.div`

@@ -13,18 +13,38 @@ import {
 } from "./styled";
 import ButtonCommon from "../../commons/ButtonCommon";
 import ScheduleCardComponent from "../ScheduleCardComponent";
+import { start } from "repl";
 
 interface IProps {
   onCloseCard: () => void;
   userData: any;
+  onConfirmSchedule: (date: any) => void;
+  startDate: Date;
+  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+  hour: number | null,
+  setHour: React.Dispatch<React.SetStateAction<number | null>>
 }
 
-const UserCardComponent: React.FC<IProps> = ({ onCloseCard, userData }) => {
+const UserCardComponent: React.FC<IProps> = ({ 
+  onCloseCard, 
+  userData, 
+  onConfirmSchedule,
+  startDate,
+  setStartDate,
+  hour,
+  setHour
+}) => {
   useEffect(() => {
     console.log(userData, "from card");
   }, [userData]);
 
+
   const [sectionActive, setSectionActive] = useState<number>(1);
+
+  /* const [setOriginData, setOriginData] = useState({
+    createAt: Date.now(),
+    /* date:  
+  }) */
 
   return (
     <UserCardStyled>
@@ -69,7 +89,16 @@ const UserCardComponent: React.FC<IProps> = ({ onCloseCard, userData }) => {
       <SectionContentContainerStyled>
         {sectionActive === 1 && userData?.description}
         {/* {sectionActive === 2 && userData?.description}*/}
-        {sectionActive === 3 && (<ScheduleCardComponent schedulesData={userData.schedulesConfigs}/>)}   
+        {sectionActive === 3 && (
+          <ScheduleCardComponent 
+            schedulesData={userData.schedulesConfigs}
+            onConfirmSchedule={() => onConfirmSchedule(startDate)}
+            startDate={startDate} 
+            setStartDate={setStartDate}
+            hour={hour}
+            setHour={setHour}
+          />)
+        }   
       </SectionContentContainerStyled>
     </UserCardStyled>
   );

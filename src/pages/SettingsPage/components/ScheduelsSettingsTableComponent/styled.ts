@@ -55,3 +55,15 @@ export const TBodyStyled = styled.tbody`
 
   color: white;
 `;
+
+export const ToggleButtonStyled = styled.button`
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-radius: 30px;
+  padding: 3px;
+
+  &:hover {
+    background-color: #3BEAB3;
+  }
+`

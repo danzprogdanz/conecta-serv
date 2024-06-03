@@ -25,7 +25,7 @@ export const LabelStyled = styled.label`
 
 export const TextBoxRootWrapperStyled = styled.div`
   height: 100%;
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -192,6 +192,8 @@ export const ButtonWrapperStyled = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  gap: 1rem;
+  color: white;
 
   @media (max-width: 768px) {
       display: none;

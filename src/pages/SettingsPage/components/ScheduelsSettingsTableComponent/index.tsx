@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SchedulesConfig } from '../../../../interfaces/auth';
-import { TableWrapperStyled, TableStyled, TBodyStyled, THeadStyled } from './styled';
+import { TableWrapperStyled, TableStyled, TBodyStyled, THeadStyled, ToggleButtonStyled } from './styled';
 
 interface ScheduleTableProps {
   data: SchedulesConfig | undefined;
@@ -27,7 +27,7 @@ const ScheduleTableComponent: React.FC<ScheduleTableProps> = ({ data, onToggle }
               <td>{hour}:00  |-|  {hour + 1}:00</td>
               {daysOfWeek.map((_, dayIndex) => (
                 <td key={dayIndex} style={{ textAlign: 'center' }} onClick={() => onToggle(dayIndex, hour)}>
-                  {data?.[dayIndex]?.[hour] ? '✔️' : '❌'}
+                  {data?.[dayIndex]?.[hour] ? <ToggleButtonStyled>✔️</ToggleButtonStyled> : <ToggleButtonStyled>❌</ToggleButtonStyled>}
                 </td>
               ))}
             </tr>

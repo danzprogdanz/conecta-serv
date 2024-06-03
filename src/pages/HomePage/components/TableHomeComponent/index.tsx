@@ -29,21 +29,6 @@ const TableHomeComponent: React.FC<IProps> = ({ tableData, onClickTableCell, use
   const [itemToDeleteCode, setItemToDeleteCode] = useState<string>("");
   const [itemToEditId, setItemToEditId] = useState<string>("");
 
-  useEffect(() => {
-    console.log(itemToDeleteCode);
-    console.log(itemToDeleteId);
-  }, [itemToDeleteCode, itemToDeleteId]);
-
-  const handleDeleteClick = (objectId: string, objectCode: string) => {
-    setItemToDeleteId(objectId);
-    setIsModalDeleteOpen(true);
-    setItemToDeleteCode(objectCode);
-  };
-
-  const handleEditClick = (objectId: string) => {
-    setItemToEditId(objectId);
-    setIsModalEditOpen(true);
-  };
 
   useEffect(() => {
     console.log(tableData);

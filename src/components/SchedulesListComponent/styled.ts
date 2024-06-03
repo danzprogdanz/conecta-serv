@@ -49,6 +49,7 @@ export const SchedulesListStyled = styled.div`
 
   &::-webkit-scrollbar {
                 height: 3px;
+                width: 10px;
               }
 
               &::-webkit-scrollbar-thumb {
@@ -71,7 +72,8 @@ export const ScheduleDisplayStyled = styled.div`
 `
 
 export const ScheduleElementButtonStyled = styled.button`
-  height: 4rem;
+  height: 20%;
+  min-height: 20%;
   width: 90%;
   padding: 0.2rem;
   background-color: transparent;
@@ -83,7 +85,7 @@ export const ScheduleElementButtonStyled = styled.button`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-f
+
   &:hover {
     background-color: #8da8a0;
   }

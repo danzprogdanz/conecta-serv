@@ -18,6 +18,8 @@ import {
   CustomLinkLogo,
 } from './styled';
 import ButtonCommon from '../../commons/ButtonCommon';
+import { useUserAuth } from '../../contexts/Auth/UserAuthContext';
+import { usersGetByDeviceIdAccess } from '../../services/dataAccess/userAcess';
 
 interface IProps {
   children?: React.ReactNode;
@@ -27,8 +29,19 @@ interface IProps {
 const NavBarComponent: React.FC<IProps> = ({ children, handleSignOut }) => {
   const [activeOption, setActiveOption] = useState<number | null>(2);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userData, setUserDate] = useState<any>(null)
   const location = useLocation();
   const { id } = useParams();
+
+  const { user } = useUserAuth();
+
+  useEffect(() => {
+    if(user && user.uid) {
+      usersGetByDeviceIdAccess(user?.uid).then(result => setUserDate(result))
+    }
+  }, [])
+
+  console.log("userData - nav", userData)
 
   useEffect(() => {
     if (location.pathname.includes('/home')) {
@@ -77,6 +90,7 @@ const NavBarComponent: React.FC<IProps> = ({ children, handleSignOut }) => {
         </CustomLink> */}
       </List>
       <ButtonWrapperStyled>
+        <h3>{`${userData?.name} ${userData?.lastName}`}</h3>
         <ButtonCommon onClick={handleSignOut} variant='outline'>Sair</ButtonCommon>
       </ButtonWrapperStyled>
       <MobileNavBar onClick={handleOpenMobileMenu}>

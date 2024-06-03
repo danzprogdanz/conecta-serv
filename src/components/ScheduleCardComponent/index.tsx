@@ -12,6 +12,11 @@ import ButtonCommon from "../../commons/ButtonCommon";
 
 interface IProps {
   schedulesData: { [key: number]: { [key: number]: boolean } };
+  onConfirmSchedule: () => void;
+  startDate: Date;
+  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+  hour: number | null;
+  setHour: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 interface CustomDatePickerInputProps {
@@ -30,11 +35,19 @@ const CustomDatePickerInput = forwardRef<HTMLButtonElement, CustomDatePickerInpu
 // Add displayName to the forwarded component for better debugging
 CustomDatePickerInput.displayName = 'CustomDatePickerInput';
 
-const ScheduleCardComponent: React.FC<IProps> = ({ schedulesData }) => {
-  const [startDate, setStartDate] = useState(new Date());
+const ScheduleCardComponent: React.FC<IProps> = (
+  { 
+    schedulesData, 
+    onConfirmSchedule,
+    startDate,
+    setStartDate, 
+    hour,
+    setHour
+  }
+) => {
 
   useEffect(() => {
-    console.log(startDate);
+    console.log('type of start date', typeof startDate);
   }, [startDate]);
 
   const getAvailableHoursForDay = (date: Date) => {
@@ -47,6 +60,11 @@ const ScheduleCardComponent: React.FC<IProps> = ({ schedulesData }) => {
   };
 
   const availableHours = getAvailableHoursForDay(startDate);
+
+  const handleConfirmHour = (selectedHour: number) => {
+    setHour(selectedHour);
+    onConfirmSchedule();
+  };
 
   return (
     <ScheduleCardRootStyled>
@@ -64,7 +82,11 @@ const ScheduleCardComponent: React.FC<IProps> = ({ schedulesData }) => {
           <SchedulesElementsWrapperStyled>
             {availableHours.length > 0 ? (
               availableHours.map(hour => (
-                <ButtonCommon key={hour} variant="defaultSmall">
+                <ButtonCommon 
+                  key={hour} 
+                  variant="defaultSmall"
+                  onClick={() => handleConfirmHour(hour)}
+                >
                   {`${hour}:00 |-| ${hour + 1}:00`}
                 </ButtonCommon>
               ))
