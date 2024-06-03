@@ -65,7 +65,7 @@ export const StyledPop = styled(Popup)`
     margin: 0px;
     background-color: transparent;
     position: relative;
-    bottom: 142px;
+    bottom: 50px;
     left: 0px;
 
     // Add more specificity to override Leaflet's default styles

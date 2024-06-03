@@ -96,7 +96,7 @@ const TableHomeComponent: React.FC<IProps> = ({ tableData, onClickTableCell, use
                   $flex="1"
                   $variant="details"
                 >
-                  <StatusIndicatorCommon isActive={item.Status} />
+                  <StatusIndicatorCommon isActive={item.status} />
                 </TableCellPropsStyled>
               </TableRowStyled>
             ))

@@ -264,3 +264,42 @@ export const AddTagButtonStyled = styled.button`
     color: #3BEAB3;
   }
 `
+
+export const InputPDFUploadStyled = styled.input`
+  display: none; // Hide the default file input
+`;
+
+export const CustomButtonStyled = styled.label`
+  background-color: #3BEAB3;
+  border: none;
+  color: #101213;
+  height: 2.25rem;
+  letter-spacing: 0.1em;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  width: fit-content;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: solid 3px #3BEAB3;
+  text-wrap: nowrap;
+  user-select: none;
+  font-weight: 700;
+
+  &:hover{
+    background-color: ${colors.Principal300};
+    ${(props) => props.theme?.colors && (`background-color: ${props.theme?.colors?.Yellow};`)};
+  }
+
+  &:active{
+    background-color: ${colors.Principal400};
+    border: solid 3px ${colors.Principal200};
+
+    ${(props) => props.theme?.colors && (`background-color: ${props.theme?.colors?.carrotOrange};`)};
+    ${(props) => props.theme?.colors && (`border: solid 3px ${props.theme?.colors?.Wine};`)};
+
+  } 
+`;
+

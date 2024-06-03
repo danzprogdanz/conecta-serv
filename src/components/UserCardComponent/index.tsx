@@ -69,7 +69,7 @@ const UserCardComponent: React.FC<IProps> = ({ onCloseCard, userData }) => {
       <SectionContentContainerStyled>
         {sectionActive === 1 && userData?.description}
         {/* {sectionActive === 2 && userData?.description}*/}
-        {sectionActive === 3 && (<ScheduleCardComponent/>)}   
+        {sectionActive === 3 && (<ScheduleCardComponent schedulesData={userData.schedulesConfigs}/>)}   
       </SectionContentContainerStyled>
     </UserCardStyled>
   );

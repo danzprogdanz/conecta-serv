@@ -6,10 +6,8 @@ import SmallButtonCommon from '../../commons/SmallButtonCommon';
 import LoadingSpinnerCommon from '../../commons/LoadingSpinnerCommon';
 
 interface LocationData {
-  Camera: string;
-  CidadeUF: string;
-  Endereco: string;
-  Status: boolean;
+  name: string;
+  cellNumber: string;
   position: LatLngTuple; 
 }
 
@@ -99,15 +97,12 @@ const MapLeafLetComponent: React.FC<IProps> = ({
     }
   });  */
 
+  useEffect(() => {console.log('locationsData', locationsData)}, [locationsData])
 
   return (
     <>
         <MapContainer center={position} zoom={zoom} style={{height: '100%', width: '100%', cursor: variant === 'pickerPoint' ? 'pointer' : 'auto'}} >
           {/* <ChangeView center={convertToLatLngLiteral(center) as LatLngLiteral}/* zoom={12}   /> */}
-          <DarkModeButtonWrapperStyled onClick={handleDarkMode}>
-            <SmallButtonCommon /* variant='focusMode' */ tooltipContent='Modo Foco'/>
-          </DarkModeButtonWrapperStyled>
-          {fullScreenButton && (<FullScreenButtonWrapperStyled onClick={handleFullScreen}><SmallButtonCommon /* variant='fullScreen' */ tooltipContent='Full Screen'/></FullScreenButtonWrapperStyled>)}
           {darkMode ? (<TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" // Dark mode tile layer
@@ -119,23 +114,18 @@ const MapLeafLetComponent: React.FC<IProps> = ({
             return (<Marker 
             key={Math.random()} // change this - this is just temporary
             position={[...el.position]}
-            /* icon={MarkerIcon(el.Status)} */
           >
             <StyledPop
               closeButton={false}  
             >
               <PopupContainerStyled>
                 <KeyWrapperStyled $darkMode={darkMode}>
-                  <KeyTextPopup $darkMode={darkMode}>Câmera:</KeyTextPopup>
-                  <KeyTextPopup $darkMode={darkMode}>Cidade - UF:</KeyTextPopup>
-                  <KeyTextPopup $darkMode={darkMode}>Endereço: </KeyTextPopup>
-                  <KeyTextPopup $darkMode={darkMode}>Status: </KeyTextPopup>
+                  <KeyTextPopup $darkMode={darkMode}>Nome:</KeyTextPopup>
+                  <KeyTextPopup $darkMode={darkMode}>Telefone:</KeyTextPopup>
                 </KeyWrapperStyled>
                 <ValuesWrapperStyled $darkMode={darkMode}>
-                  <ValueTextPopup $darkMode={darkMode}>{el.Camera}</ValueTextPopup>
-                  <ValueTextPopup $darkMode={darkMode}>{el.CidadeUF}</ValueTextPopup>
-                  <ValueTextPopup $darkMode={darkMode}>{el.Endereco}</ValueTextPopup>
-                  {el.Status ? (<ValueTextPopup $darkMode={darkMode}><GreenCircleStyled/>Ativo</ValueTextPopup>) : (<ValueTextPopup $darkMode={darkMode}><RedCircleStyled/>Inativo</ValueTextPopup>) }
+                  <ValueTextPopup $darkMode={darkMode}>{el.name}</ValueTextPopup>
+                  <ValueTextPopup $darkMode={darkMode}>{el.cellNumber}</ValueTextPopup>
                 </ValuesWrapperStyled> 
                 {/* <ClosePopUpWrapperStyled>          
                   <RemoveOptionButtonStyled onClick={handleClosePopup}><RemoveOptionIconStyled/></RemoveOptionButtonStyled>

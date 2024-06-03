@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SchedulesConfig } from '../../../../interfaces/auth';
 import { TableWrapperStyled, TableStyled, TBodyStyled, THeadStyled } from './styled';
 
 interface ScheduleTableProps {
-  data: SchedulesConfig;
+  data: SchedulesConfig | undefined;
+  onToggle: (dayIndex: number, hour: number) => void;
 }
 
-const ScheduleTableComponent: React.FC<ScheduleTableProps> = ({ data }) => {
+const ScheduleTableComponent: React.FC<ScheduleTableProps> = ({ data, onToggle }) => {
   const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 
   return (
@@ -21,12 +22,12 @@ const ScheduleTableComponent: React.FC<ScheduleTableProps> = ({ data }) => {
           </tr>
         </THeadStyled>
         <TBodyStyled>
-          {Array.from({ length: 24 }, (_, hour) => (
+          {data && Array.from({ length: 24 }, (_, hour) => (
             <tr key={hour}>
               <td>{hour}:00  |-|  {hour + 1}:00</td>
               {daysOfWeek.map((_, dayIndex) => (
-                <td key={dayIndex} style={{ textAlign: 'center' }}>
-                  {data[dayIndex][hour] ? '✔️' : '❌'}
+                <td key={dayIndex} style={{ textAlign: 'center' }} onClick={() => onToggle(dayIndex, hour)}>
+                  {data?.[dayIndex]?.[hour] ? '✔️' : '❌'}
                 </td>
               ))}
             </tr>

@@ -1,6 +1,5 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import {
   ScheduleCardRootStyled,
@@ -12,7 +11,7 @@ import {
 import ButtonCommon from "../../commons/ButtonCommon";
 
 interface IProps {
-
+  schedulesData: { [key: number]: { [key: number]: boolean } };
 }
 
 interface CustomDatePickerInputProps {
@@ -31,9 +30,24 @@ const CustomDatePickerInput = forwardRef<HTMLButtonElement, CustomDatePickerInpu
 // Add displayName to the forwarded component for better debugging
 CustomDatePickerInput.displayName = 'CustomDatePickerInput';
 
-const ScheduleCardComponent: React.FC<IProps> = ({}) => {
+const ScheduleCardComponent: React.FC<IProps> = ({ schedulesData }) => {
   const [startDate, setStartDate] = useState(new Date());
-  
+
+  useEffect(() => {
+    console.log(startDate);
+  }, [startDate]);
+
+  const getAvailableHoursForDay = (date: Date) => {
+    const dayIndex = date.getDay(); // Get the day index (0 for Sunday, 1 for Monday, etc.)
+    const hoursData = schedulesData[dayIndex];
+    // Filter hoursData to only keep hours that are true
+    return Object.keys(hoursData)
+      .filter(hour => hoursData[parseInt(hour)])
+      .map(hour => parseInt(hour));
+  };
+
+  const availableHours = getAvailableHoursForDay(startDate);
+
   return (
     <ScheduleCardRootStyled>
       <ScheduleContentWrapperStyled>
@@ -45,45 +59,21 @@ const ScheduleCardComponent: React.FC<IProps> = ({}) => {
           customInput={<CustomDatePickerInput />}
         />
         <SchedulesPickerBoardStyled>
-          Agenda
-          <SeparateLineStyled/>
+          Horários disponíveis
+          <SeparateLineStyled />
           <SchedulesElementsWrapperStyled>
-            <ButtonCommon
-              //$isDisabled={true}
-              variant="disabled"
-            >9:00 |-| 10:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >10:00 |-| 11:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >9:00 |-| 10:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >10:00 |-| 11:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >9:00 |-| 10:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >10:00 |-| 11:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >9:00 |-| 10:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >10:00 |-| 11:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >9:00 |-| 10:00</ButtonCommon>
-            <ButtonCommon
-              variant="defaultSmall"
-            >10:00 |-| 11:00</ButtonCommon>
+            {availableHours.length > 0 ? (
+              availableHours.map(hour => (
+                <ButtonCommon key={hour} variant="defaultSmall">
+                  {`${hour}:00 |-| ${hour + 1}:00`}
+                </ButtonCommon>
+              ))
+            ) : (
+              <p>Sem horários disponíveis</p>
+            )}
           </SchedulesElementsWrapperStyled>
         </SchedulesPickerBoardStyled>
       </ScheduleContentWrapperStyled>
-      
-      {/* <ButtonCommon>Agendar</ButtonCommon> */}
     </ScheduleCardRootStyled>
   );
 };

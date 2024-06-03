@@ -25,6 +25,11 @@ interface ScheduleConfigsException {
   Settings: DailySchedule;
 }
 
+interface Coordinates {
+  lat: number | null;
+  lon: number | null;
+}
+
 
 export interface IUserData {
   userType: string | null;
@@ -44,5 +49,8 @@ export interface IUserData {
   schedulesConfigs: SchedulesConfig;
   schedulesConfigsExceptions: ScheduleConfigsException[];
   userSchedules: UserSchedules; // Add userSchedules to hold the created schedules
-  [Key: string]: string[] | string | SchedulesConfig | ScheduleConfigsException[] | UserSchedules | null;
+  coordinates: Coordinates | undefined; // Add coordinates property
+  portfolio?: File; // Add portfolio property to hold the PDF file
+  status: boolean;
+  [Key: string]: any;
 }

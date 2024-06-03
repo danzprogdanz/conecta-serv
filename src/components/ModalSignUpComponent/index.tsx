@@ -19,6 +19,8 @@ import {
   InputTagsWrapperStyled,
   InputWrapperStyled,
   AddTagButtonStyled,
+  CustomButtonStyled,
+  InputPDFUploadStyled,
 } from "./styled";
 import ModalDWCommon from "../../commons/ModalCommon";
 import TitleDWCommon from "../../commons/TitleCommon";
@@ -73,8 +75,23 @@ const ModalSignUpComponent: React.FC<IProps> = ({
     schedulesConfigs: schedulesConfigsDefault,
     schedulesConfigsExceptions: scheduleConfigsExceptionModel,
     userSchedules: userSchedulesModel,
+    coordinates: {lat: 0, lon: 0},
+    status: true,
   });
   const [errorState, setErrorState] = useState<{type: string, fields: string[]}>({ type: '', fields: [] });
+
+  useEffect(() => {
+    if(userData.adressNumber !== '' && userData.adressNumber !== null && userData.street !== '' && userData.street !== null) {
+      getLatLong(userData.adressNumber, userData.street)
+        .then((result) => {
+          setUserData((prevData) => ({
+            ...prevData,
+            coordinates: result,
+          }));
+        })
+    }
+    console.log(userData)
+  }, [userData.adressNumber, userData.street])
 
   const renderSaveButtons = () => {
     return Array.from(
@@ -170,22 +187,43 @@ const ModalSignUpComponent: React.FC<IProps> = ({
     }
   }
 
-  const fetchData = async () => {
+  const getLatLong = async (
+    number: string, 
+    street: string, 
+    city: string = "Fortaleza", 
+    state: string = "CE", 
+    country: string = "Brasil", 
+    postalCode?: string
+  ) => {
     try {
-      const address = `61 Rua José Vilar, Fortaleza, CE, Brasil`;
+      console.log(number, street);
+      let address = `${number} ${street}, ${city}, ${state}, ${country}`;
+      if (postalCode) {
+        address += `, ${postalCode}`;
+      }
       const encodedAddress = encodeURIComponent(address);
-      const link = `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json`;
+      const link = `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&limit=1`;
       const response = await fetch(link);
       if (response.ok) {
         const jsonData = await response.json();
-        console.log(jsonData);
+        if (jsonData.length > 0) {
+          const { lat, lon } = jsonData[0];
+          return { lat: parseFloat(lat), lon: parseFloat(lon) };
+        } else {
+          return { lat: 0, lon: 0 };
+        }
       } else {
         console.error("Error fetching data:", response.status);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  };  
+  
+
+  useEffect(() => {
+    
+  }, [])
 
   useEffect(() => {
     setUserData((prevData) => ({
@@ -226,7 +264,7 @@ const ModalSignUpComponent: React.FC<IProps> = ({
     setErrorState({ type: '', fields: [] });
 }, [userData]);
 
-const removeAnalytics = (valueToRemove: string) => {
+const removeTag = (valueToRemove: string) => {
   setTagsList((prevSelected) => 
     prevSelected.filter((value) => value !== valueToRemove)
   );
@@ -258,8 +296,33 @@ const handleAddTag = () => {
       }
     }
 
+    console.log('userData', userData)
+
     onSignUp(userData)
   } 
+
+  const FileUploadComponent = () => {
+    const handleFileChange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        console.log('File selected:', file.name);
+        // Perform actions with the selected file (e.g., upload it to a server)
+      }
+    };
+  
+    return (
+      <div>
+        <InputPDFUploadStyled
+          id="pdf-upload"
+          type="file"
+          accept="application/pdf"
+          onChange={handleFileChange}
+        />
+        <CustomButtonStyled htmlFor="pdf-upload">Upload PDF</CustomButtonStyled>
+      </div>
+    );
+  };
+  
 
   const stepOne = () => (
     <>
@@ -490,7 +553,7 @@ const handleAddTag = () => {
                   <SelectedAnalyticsColorStyled>
                     {el}
                   </SelectedAnalyticsColorStyled>
-                  <RemoveOptionButtonStyled onClick={() => {removeAnalytics(el)}}>
+                  <RemoveOptionButtonStyled onClick={() => {removeTag(el)}}>
                     <RemoveOptionIconStyled />
                   </RemoveOptionButtonStyled>
                 </SelectedAnalyticsTagStyled>
@@ -530,7 +593,7 @@ const handleAddTag = () => {
         {userType === "contractor" ? "da empresa" : "do serviço"}
       </SubtitleCommon>
       <ContentFiveContainerStyled>
-        <input type="file" />
+        <FileUploadComponent/>
       </ContentFiveContainerStyled>
       <ButtonsContainerStyled>
         <ButtonCommon variant="outlineDarker" onClick={handleBackClick}>

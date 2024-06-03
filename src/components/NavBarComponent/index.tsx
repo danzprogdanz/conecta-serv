@@ -70,11 +70,11 @@ const NavBarComponent: React.FC<IProps> = ({ children, handleSignOut }) => {
             Configurações{activeOption === 2 && <ActiveDiv />}
           </ListItem>
         </CustomLink>
-        <CustomLink to='/feedback'>
+        {/* <CustomLink to='/feedback'>
           <ListItem onClick={() => handleActive(3)}>
             Análise do feedback{activeOption === 3 && <ActiveDiv />}
           </ListItem>
-        </CustomLink>
+        </CustomLink> */}
       </List>
       <ButtonWrapperStyled>
         <ButtonCommon onClick={handleSignOut} variant='outline'>Sair</ButtonCommon>

@@ -1,30 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   MainContainerStyled,
   SchedulesListRootStyled,
   SchedulesTitleStyled,
   SeparateLineStyled,
-} from "./styled";
-import ScheduleTableComponent from "../ScheduelsSettingsTableComponent";
-import { schedulesConfigsDefault } from "../../../../models/schedulesSettings";
-import ButtonCommon from "../../../../commons/ButtonCommon";
+} from './styled';
+import ScheduleTableComponent from '../ScheduelsSettingsTableComponent';
+import ButtonCommon from '../../../../commons/ButtonCommon';
 
 interface IProps {
   title: string;
-  schedulesData?: any[];
+  schedulesData?: { [key: number]: { [key: number]: boolean } };
+  onUpdateSchedulesConfigs: (data: any) => void;
 }
 
-const WeeklyConfigDefaultComponent: React.FC<IProps> = ({title, schedulesData}) => {
+const WeeklyConfigDefaultComponent: React.FC<IProps> = ({ title, schedulesData = {}, onUpdateSchedulesConfigs }) => {
+  const [localSchedulesData, setLocalSchedulesData] = useState(schedulesData);
+
+  useEffect(() => {
+    setLocalSchedulesData(schedulesData);
+  }, [schedulesData]);
+
+  const handleToggle = (dayIndex: number, hour: number) => {
+    const updatedSchedules = localSchedulesData && { ...localSchedulesData };
+    if (updatedSchedules && updatedSchedules[dayIndex]) {
+      updatedSchedules[dayIndex][hour] = !updatedSchedules[dayIndex][hour];
+      setLocalSchedulesData(updatedSchedules);
+    }
+  };
 
   return (
     <SchedulesListRootStyled>
       <SchedulesTitleStyled>{title}</SchedulesTitleStyled>
-      <SeparateLineStyled/>
+      <SeparateLineStyled />
       <MainContainerStyled>
         <ScheduleTableComponent
-          data={schedulesConfigsDefault}
+          data={localSchedulesData}
+          onToggle={handleToggle}
         />
-        <ButtonCommon>Salvar</ButtonCommon>
+        <ButtonCommon onClick={() => onUpdateSchedulesConfigs(localSchedulesData)}>Salvar</ButtonCommon>
       </MainContainerStyled>
     </SchedulesListRootStyled>
   );

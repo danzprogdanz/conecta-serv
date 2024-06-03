@@ -22,10 +22,12 @@ import ToastNotificationDWCommon from "../../commons/ToastNotificationDWCommon";
 import LoadingSpinnerCommon from "../../commons/LoadingSpinnerCommon";
 import MapLeafLetComponent from "../../components/MapLeafLetComponent";
 import TableHomeComponent from "./components/TableHomeComponent";
-import { GetUsersAccess } from "../../services/dataAccess/userAcess";
+import { GetUsersAccess, GetUsersAccessFilter } from "../../services/dataAccess/userAcess";
 import UserCardComponent from "../../components/UserCardComponent";
 import { filterUserByIdHelper } from "../../utils/filterUserByIdHelper";
 import ModalConfirmScheduleComponent from "../../components/ModalConfirmScheduleComponent";
+import { getHomeHelper } from "../../utils/getHomeHelper";
+import SmallButtonCommon from "../../commons/SmallButtonCommon";
 
 const HomePage: React.FC = () => {
 
@@ -38,11 +40,28 @@ const HomePage: React.FC = () => {
   const [fullScreenMap, setFullScreenMap] = useState<boolean>(true);
   const [fullScreenMapTimeoutDone, setFullScreenMapTimeoutDone] =
     useState(false);
+    
+  const [districtValue, setDistrictValue] = useState<string | null>(null);
+  const [tagValue, setTagValue] = useState<string | null>(null);
+  const [statusValue, setStatusValue] = useState<boolean | null>(null);
 
   const [clearSelectors, setClearSelectors] = useState(false);
 
   const [userSelected, setUserSelected] = useState<string | null>(null)
   const [userDataSelected, setUserDataSelected] = useState<any>(null)
+
+  const [triggerEffectFilter, setTriggerEffectFilter] = useState(false);
+
+  const [filterData, setFilterData] = useState<{
+    district: string | null;
+    tags: string[] | null;
+    status: boolean | null;
+  }>({
+    district: null,
+    tags: null,
+    status: null,
+  });
+
 
   useEffect(() => {
     if (!fullScreenMapTimeoutDone) {
@@ -139,6 +158,66 @@ const HomePage: React.FC = () => {
     }
   }, [userSelected])
   
+
+  useEffect(() => {
+    GetUsersAccessFilter({district: "Aldeota", tags: ["TI"], status: false})
+      .then(result => {
+        console.log('filter', result)
+      })
+  }, [])
+
+  useEffect(() => {
+    setFilterData(prevFilterData => ({
+      district: districtValue,
+      tags: typeof tagValue === 'string' ? [tagValue] : tagValue,
+      status: statusValue,
+    }));
+  }, [districtValue, tagValue, statusValue])
+
+  const handleFilter = () => {
+    
+
+    setTriggerEffectFilter(true);
+
+    //setLoading(true);
+
+    /* setTimeout(() => {
+      setLoading(false);
+    }, 1200); */
+  };
+
+  useEffect(() => {
+    if(triggerEffectFilter) {
+      GetUsersAccessFilter(filterData)
+      .then(result => {
+        setUsersData(result)
+      })
+    }
+    setTriggerEffectFilter(false)   
+  }, [triggerEffectFilter])
+
+  useEffect(() => {
+    console.log(usersData)
+  }, [usersData])
+
+  const getDistricts = (users: any[]): string[] => {
+    const districtSet = new Set(users.map(user => user.district));
+    return Array.from(districtSet);
+  };
+
+  const getUniqueTags = (users: any[]): string[] => {
+    const tagSet = new Set<string>();
+    users.forEach(user => {
+      user.tagsList.forEach((tag: string) => tagSet.add(tag));
+    });
+    return Array.from(tagSet);
+  };
+
+  useEffect(() => {
+
+    console.log(filterData)
+  }, [filterData])
+
   return (
     <PageLayoutRootStyled>
       <HomePageLayoutStyled>
@@ -147,9 +226,9 @@ const HomePage: React.FC = () => {
             name="district"
             label="Bairro"
             placeholder="ex: Aldeota"
-            onSelectedValue={(value) => {}}
-            onRemoveOption={() => {}}
-            //dropDownOptions={DistrictDataModelExamples}
+            onSelectedValue={(value) => setDistrictValue(String(value))}
+            onRemoveOption={() => {setDistrictValue(null)}}
+            dropDownOptions={getDistricts(usersData)}
             clearSelectors={clearSelectors}
             //resetClearSelectors={resetClearSelectors}
           />
@@ -157,9 +236,9 @@ const HomePage: React.FC = () => {
             name="tags"
             label="Tipo serviço | TAG's"
             placeholder="ex: Marcenária"
-            //onSelectedValue={(value) => { setDistrictValue(String(value)) }}
-            //onRemoveOption={() => { setDistrictValue(null) }}
-            //dropDownOptions={DistrictDataModelExamples}
+            onSelectedValue={(value) => { setTagValue(String(value)) }}
+            onRemoveOption={() => { setTagValue(null) }}
+            dropDownOptions={getUniqueTags(usersData)}
             //clearSelectors={clearSelectors}
             //resetClearSelectors={resetClearSelectors}
           />
@@ -169,23 +248,23 @@ const HomePage: React.FC = () => {
             label="Status do dispositivo"
             placeholder="ex: Ativo"
             dropDownHeight="90px"
-            onSelectedValue={(value) => {}}
-            onRemoveOption={() => {}}
+            onSelectedValue={(value) => { setStatusValue(value === 'true' ? true : false ) }}
+            onRemoveOption={() => {setStatusValue(null)}}
             statusOption={true}
             clearSelectors={clearSelectors}
             //={resetClearSelectors}
           />
           <FilterButtonsContainerStyled>
-            {/* <SmallButtonDWCommon
+            <SmallButtonCommon
               onClick={handleFilter}
-              variant="filter"
+              //variant="filter"
               tooltipContent="Filtrar"
             />
-            <SmallButtonDWCommon
-              onClick={cleanFilter}
-              variant="cleanFilter"
+            <SmallButtonCommon
+              onClick={() => {}/* cleanFilter */}
+              //variant="cleanFilter"
               tooltipContent="Limpar Filtro"
-            /> */}
+            />
           </FilterButtonsContainerStyled>
         </FilterContainerStyled>
         <MainContentContainerStyled>
@@ -193,7 +272,7 @@ const HomePage: React.FC = () => {
             <MapLeafLetComponent
               handleFullScreen={handleFullScreen} 
               fullScreenButton={true}
-              /* locationsData={getHomeHelper(cameraData)} */
+              locationsData={getHomeHelper(usersData)} 
             />
           </MapWrapperStyled>
           <LeftContainerSupportStyled>
